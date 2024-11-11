@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cita Previa</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f7f7f7;
+        }
+
+        .calendar-container {
+            width: 350px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .calendar-header {
+            background-color: #009688;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            padding: 15px;
+        }
+
+        .day-of-week {
+            font-weight: bold;
+            text-align: center;
+            padding: 5px;
+            color: #4CAF50;
+        }
+
+        .day {
+            text-align: center;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .day:hover {
+            background-color: #e0e0e0;
+        }
+
+        .day.selected {
+            background-color: #009688;
+            color: white;
+            font-weight: bold;
+        }
+
+        .day.disabled {
+            background-color: #ddd;
+            color: #aaa;
+            cursor: not-allowed;
+        }
+
+        .footer {
+            padding: 15px;
+            text-align: center;
+            background-color: #fff;
+            border-top: 1px solid #ddd;
+        }
+
+        .footer button {
+            padding: 10px 20px;
+            background-color: #009688;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .footer button:hover {
+            background-color: #00695C;
+        }
+    </style>
+</head>
+<body>
+    <div class="calendar-container">
+        <div class="calendar-header">Seleccione la Fecha para su Cita</div>
+        <div class="calendar">
+            <!-- Días de la semana -->
+            <div class="day-of-week">Lun</div>
+            <div class="day-of-week">Mar</div>
+            <div class="day-of-week">Mié</div>
+            <div class="day-of-week">Jue</div>
+            <div class="day-of-week">Vie</div>
+            <div class="day-of-week">Sáb</div>
+            <div class="day-of-week">Dom</div>
+
+            <!-- Días del mes (ejemplo) -->
+            <!-- Los primeros días están deshabilitados como ejemplo -->
+            <div class="day disabled">29</div>
+            <div class="day disabled">30</div>
+            <div class="day disabled">31</div>
+            <div class="day">1</div>
+            <div class="day">2</div>
+            <div class="day">3</div>
+            <div class="day disabled">4</div>
+            <div class="day">5</div>
+            <div class="day">6</div>
+            <div class="day">7</div>
+            <div class="day">8</div>
+            <div class="day">9</div>
+            <div class="day">10</div>
+            <div class="day disabled">11</div>
+            <div class="day">12</div>
+            <div class="day">13</div>
+            <div class="day">14</div>
+            <div class="day">15</div>
+            <div class="day">16</div>
+            <div class="day">17</div>
+            <div class="day disabled">18</div>
+            <div class="day">19</div>
+            <div class="day">20</div>
+            <div class="day">21</div>
+            <div class="day">22</div>
+            <div class="day">23</div>
+            <div class="day">24</div>
+            <div class="day disabled">25</div>
+            <div class="day">26</div>
+            <div class="day">27</div>
+            <div class="day">28</div>
+            <div class="day">29</div>
+            <div class="day">30</div>
+        </div>
+        <div class="footer">
+            <button onclick="confirmarCita()">Confirmar Cita</button>
+        </div>
+    </div>
+
+    <script>
+        // Lógica para seleccionar el día
+        const days = document.querySelectorAll('.day');
+        days.forEach(day => {
+            day.addEventListener('click', () => {
+                // Si está deshabilitado, no hacer nada
+                if (day.classList.contains('disabled')) return;
+
+                // Remover selección de otros días
+                days.forEach(d => d.classList.remove('selected'));
+                
+                // Agregar clase seleccionada al día clicado
+                day.classList.add('selected');
+            });
+        });
+
+        // Función para confirmar la cita
+        function confirmarCita() {
+            const selectedDay = document.querySelector('.day.selected');
+            if (selectedDay) {
+                alert("Cita reservada para el día " + selectedDay.textContent);
+            } else {
+                alert("Por favor, seleccione una fecha para su cita.");
+            }
+        }
+    </script>
+</body>
+</html>
