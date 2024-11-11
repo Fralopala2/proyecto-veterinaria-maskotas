@@ -7,22 +7,79 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
             margin: 0;
             background-color: #f7f7f7;
+            min-height: 100vh;
+            padding-top: 80px; /* Añadir padding para compensar la navbar fija */
         }
 
+        /* Navegación */
+        nav {
+            background-color: #009688;
+            color: white;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            font-size: 1.5rem;
+            margin-right: 0.5rem;
+        }
+
+        .logo span {
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            .nav-links {
+                display: flex;
+                gap: 1.5rem;
+            }
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #bfdbfe;
+        }
+
+        /* Contenedor del calendario */
         .calendar-container {
             width: 800px;
             background-color: #fff;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             border-radius: 8px;
             overflow: hidden;
+            margin: 20px auto; /* Centrar horizontalmente */
         }
 
+        /* Resto de los estilos sin cambios */
         .calendar-header {
             background-color: #009688;
             color: white;
@@ -94,6 +151,23 @@
     </style>
 </head>
 <body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-paw"></i>
+                <span>MASK!OTAS</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Inicio</a>
+                <a href="index.html#servicios">Servicios</a>
+                <a href="citas.html">Reservar Cita</a>
+                <a href="index.html#blog">Blog</a>
+                <a href="index.html#resenias">Reseñas</a>
+                <a href="index.html#suscribirse">Suscribete</a>
+                <a href="index.html#contacto">Contacto</a>
+            </div>
+        </div>
+    </nav>
     <div class="calendar-container">
         <div class="calendar-header">Seleccione la Fecha para su Cita</div>
         <div class="calendar">
