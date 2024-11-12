@@ -46,6 +46,9 @@
         .logo span {
             font-size: 1.25rem;
             font-weight: bold;
+            text-decoration: inherit;
+            color: white;
+            text-decoration-color: #009688;
         }
 
         .nav-links {
@@ -71,12 +74,13 @@
 
         /* Contenedor del calendario */
         .calendar-container {
-            width: 800px;
+            width: 90%;
+            max-width: 800px;
             background-color: #fff;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             border-radius: 8px;
             overflow: hidden;
-            margin: 20px auto; /* Centrar horizontalmente */
+            margin: 20px auto;
         }
 
         .calendar-header {
@@ -147,6 +151,26 @@
         .footer button:hover {
             background-color: #00695C;
         }
+
+        /* Responsive adjustments */
+        @media (max-width: 767px) {
+            .calendar-container {
+                width: 95%;
+            }
+
+            .calendar {
+                grid-template-columns: repeat(3, 1fr); /* 3 columnas para móviles */
+            }
+
+            .calendar-header, .footer button {
+                font-size: 14px;
+            }
+
+            .day, .day-of-week {
+                font-size: 12px;
+                padding: 8px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -154,7 +178,7 @@
         <div class="nav-container">
             <div class="logo">
                 <i class="fas fa-paw"></i>
-                <span>MASK!OTAS</span>
+                <a href="index.html"><span>MASK!OTAS</span></a>
             </div>
             <div class="nav-links">
                 <a href="index.html">Inicio</a>
@@ -162,7 +186,7 @@
                 <a href="citas.html">Reservar Cita</a>
                 <a href="index.html#blog">Blog</a>
                 <a href="index.html#resenias">Reseñas</a>
-                <a href="index.html#suscribirse">Suscribete</a>
+                <a href="index.html#suscribirse">Suscríbete</a>
                 <a href="contacto.html">Contacto</a>
             </div>
         </div>
@@ -180,7 +204,6 @@
             <div class="day-of-week">Dom</div>
 
             <!-- Días del mes (ejemplo) -->
-            <!-- Los primeros días están deshabilitados como ejemplo -->
             <div class="day disabled">29</div>
             <div class="day disabled">30</div>
             <div class="day disabled">31</div>
@@ -225,13 +248,8 @@
         const days = document.querySelectorAll('.day');
         days.forEach(day => {
             day.addEventListener('click', () => {
-                // Si está deshabilitado, no hacer nada
                 if (day.classList.contains('disabled')) return;
-
-                // Remover selección de otros días
                 days.forEach(d => d.classList.remove('selected'));
-                
-                // Agregar clase seleccionada al día clicado
                 day.classList.add('selected');
             });
         });
