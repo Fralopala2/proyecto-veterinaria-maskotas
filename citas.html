@@ -72,6 +72,15 @@
             color: #bfdbfe;
         }
 
+        a:-webkit-any-link {
+            color: -webkit-link;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
         /* Contenedor del calendario */
         .calendar-container {
             width: 90%;
@@ -158,9 +167,9 @@
                 width: 95%;
             }
 
-            .calendar {
-                grid-template-columns: repeat(3, 1fr); /* 3 columnas para móviles */
-            }
+            /* .calendar {
+                grid-template-columns: repeat(3, 1fr); /* 3 columnas para móviles 
+            } */
 
             .calendar-header, .footer button {
                 font-size: 14px;

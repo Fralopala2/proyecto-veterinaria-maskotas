@@ -167,6 +167,7 @@ nav {
 .hero p {
     font-size: 1.25rem;
     margin-bottom: 2rem;
+    padding: 2px;
 }
 
 /* Media queries */
