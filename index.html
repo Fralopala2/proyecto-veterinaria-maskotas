@@ -16,7 +16,7 @@
                 <i class="fas fa-paw"></i>
                 <span>MASK!OTAS</span>
             </div>
-            <div class="nav-links">
+            <div id="menu-nav" class="nav-links">
                 <a href="#">Inicio</a>
                 <a href="#servicios">Servicios</a>
                 <a href="citas.html">Reservar Cita</a>
@@ -24,6 +24,11 @@
                 <a href="#resenias">Reseñas</a>
                 <a href="#suscribirse">Suscribete</a>
                 <a href="contacto.html">Contacto</a>
+            </div>
+            <div class="menu-icon">
+                <a href="javascript:void(0);" class="hamburguesa" onclick="myFunction()">
+                  <i class="fa fa-bars"></i>
+                </a>
             </div>
         </div>
     </nav>
@@ -195,5 +200,16 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        function myFunction() {
+          var x = document.getElementById("menu-nav");
+          if (x.className === "nav-links") {
+            x.className += " responsive";
+          } else {
+            x.className = "nav-links";
+          }
+        }
+    </script>
 </body>
 </html>

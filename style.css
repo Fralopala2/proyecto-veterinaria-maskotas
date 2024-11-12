@@ -13,63 +13,98 @@ body {
 }
 
 /* Navegación */
-        nav {
-            background-color: #009688;
-            color: white;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-        }
+nav {
+    background-color: #009688;
+    color: white;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
 
-        .nav-container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 1rem 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+.nav-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-        .logo {
-            display: flex;
-            align-items: center;
-        }
+.logo {
+    display: flex;
+    align-items: center;
+}
 
-        .logo i {
-            font-size: 1.5rem;
-            margin-right: 0.5rem;
-        }
+.logo i {
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+}
 
-        .logo span {
-            font-size: 1.15rem;
-            font-weight: bold;
-            text-decoration: inherit;
-            color: white;
-            text-decoration-color: #009688;
-        }
+.logo span {
+    font-size: 1.15rem;
+    font-weight: bold;
+    text-decoration: inherit;
+    color: white;
+    text-decoration-color: #009688;
+}
 
-        .nav-links {
-            display: none;
-        }
+@media screen and (max-width: 768px) {
+    .nav-container {
+        display: block;
+        padding: 0;
+    }
 
-        @media (min-width: 768px) {
-            .nav-links {
-                display: flex;
-                gap: 1.5rem;
-            }
-        }
+    .nav-container .logo {
+        padding: 0.5rem 0rem 0.5rem 0.5rem;
+    }
 
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
+    .nav-links a {
+        display: none;
+    }
 
-        .nav-links a:hover {
-            color: #bfdbfe;
-        }
+    .menu-icon .hamburguesa {
+        position: absolute;
+        right: 10px;
+        top: 11px;
+    }
+
+    .nav-links.responsive {
+        position: relative;
+        background-color: #00695C;
+        padding-left: 1%;
+        font-size: 1.5em;
+    }
+
+    .nav-links.responsive a {
+        float: none;
+        display: block;
+        text-align: center;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .nav-links {
+        display: flex;
+        gap: 1.5rem;
+    }
+
+    .menu-icon .hamburguesa {
+        display: none;
+    }
+}
+
+.nav-container a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.nav-container a:hover {
+    color: #bfdbfe;
+    background-color: #009688;
+}
 
 /* Hero Section */
 .hero {
@@ -78,7 +113,8 @@ body {
     color: white;
     padding: 5rem 0;
     text-align: center;
-    height: auto; /* Cambiado de 100vh a auto */
+    height: auto;
+    /* Cambiado de 100vh a auto */
     overflow: hidden;
 }
 
@@ -113,7 +149,8 @@ body {
     /* display: block; */
     align-items: center;
     justify-content: center;
-    padding: 4rem 0; /* Añadido padding para dar altura específica a la sección */
+    padding: 4rem 0;
+    /* Añadido padding para dar altura específica a la sección */
 }
 
 .hero-content {
@@ -138,11 +175,11 @@ body {
         flex-direction: column;
         padding: 3rem 0;
     }
-    
+
     .hero-logo {
         margin: 0 0 2rem 0;
     }
-    
+
     .hero h1 {
         font-size: 2.5rem;
     }
@@ -446,13 +483,15 @@ footer {
     padding: 0;
 }
 
-.social-links a, .legal-links a  {
+.social-links a,
+.legal-links a {
     color: #9ca3af;
     text-decoration: none;
     transition: color 0.3s;
 }
 
-.social-links a:hover, .legal-links a:hover {
+.social-links a:hover,
+.legal-links a:hover {
     color: white;
 }
 
@@ -495,11 +534,11 @@ footer {
     .hero h1 {
         font-size: 2.5rem;
     }
-    
+
     .newsletter-form form {
         flex-direction: column;
     }
-    
+
     .footer-links {
         grid-template-columns: 1fr;
         gap: 1rem;
@@ -512,6 +551,7 @@ footer {
         opacity: 0;
         transform: translateY(20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -537,17 +577,18 @@ html {
 
 /* Ajustes para impresión */
 @media print {
+
     nav,
     .newsletter,
     .social-links {
         display: none;
     }
-    
+
     body {
         color: black;
         background: white;
     }
-    
+
     .container {
         width: 100%;
         max-width: none;
