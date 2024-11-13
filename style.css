@@ -52,6 +52,7 @@ nav {
 .nav-links {
     display: flex;
     gap: 1rem;
+    font-size: larger;
 }
 
 .menu-icon .hamburguesa {
