@@ -9,7 +9,6 @@
 </head>
 
 <style>
-    
 /* Navegación */
 nav {
     background-color: #009688;
@@ -46,7 +45,6 @@ nav {
     color: white;
 }
 
-/* Estilos para enlaces de navegación */
 .nav-links {
     display: flex;
     gap: 1rem;
@@ -58,55 +56,89 @@ nav {
     color: white;
 }
 
+/* Responsive */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        background-color: #009688;
+        width: 100%;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        padding: 0.5rem;
+    }
+
+    .nav-links a {
+        padding: 0.5rem;
+        text-align: center;
+        display: block;
+        color: white;
+        text-decoration: none;
+    }
+
+    .menu-icon .hamburguesa {
+        display: block;
+        cursor: pointer;
+    }
+
+    /* Mostrar el menú cuando tiene la clase 'responsive' */
+    .nav-links.responsive {
+        display: flex;
+    }
+}
+
 body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-        }
-        h1 {
-            color: #009688;
-            font-size: 2em;
-            text-align: left;
-            padding-top: 2cm;
-        }
-        h2 {
-            color: #00695C;
-            font-size: 1.5em;
-            margin-top: 1em;
-        }
-        p {
-            text-align: justify;
-            margin-top: 0.5em;
-            font-size: 1em;
-        }
-        article{
-            display: block;
-            unicode-bidi: isolate;
-        }
-        img{
-            border-radius: 0.5rem;
-            height: 315px;
-            width: 629;
-            display: inline;
-        }
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin-top: 60px; /* Separar el contenido de la barra de navegación */
+}
 
+h1 {
+    color: #009688;
+    font-size: 2em;
+    text-align: left;
+    padding-top: 2cm;
+}
 
+h2 {
+    color: #00695C;
+    font-size: 1.5em;
+    margin-top: 1em;
+}
+
+p {
+    text-align: justify;
+    margin-top: 0.5em;
+    font-size: 1em;
+}
+
+img {
+    border-radius: 0.5rem;
+    height: auto;
+    width: 100%;
+    display: block;
+}
 
 .blog {
     display: flex;
     gap: 2cm;
     justify-content: center;
     margin-top: 2em;
+    flex-wrap: wrap;
 }
 
 .blog-card {
     background-color: white;
     color: black;
-    width: 300px;
+    width: 100%;
+    max-width: 300px;
     border-radius: 8px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     overflow: hidden;
     text-align: left;
     transition: transform 0.2s ease-in-out;
+    margin: 1em;
 }
 
 .blog-card:hover {
@@ -155,12 +187,12 @@ body {
     height: auto;
     overflow: hidden;
 }
+
 .video-background video {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
-
 </style>
 
 <body>
@@ -172,17 +204,17 @@ body {
                 <span>MASK!OTAS</span>
             </div>
             <div id="menu-nav" class="nav-links">
-                <a href="#">Inicio</a>
-                <a href="#servicios">Servicios</a>
+                <a href="index.html">Inicio</a>
+                <a href="index.html#servicios">Servicios</a>
                 <a href="citas.html">Reservar Cita</a>
-                <a href="#blog">Blog</a>
-                <a href="#resenias">Reseñas</a>
-                <a href="#suscribirse">Suscribete</a>
+                <a href="index.html#blog">Blog</a>
+                <a href="index.html#resenias">Reseñas</a>
+                <a href="index.html#suscribirse">Suscribete</a>
                 <a href="contacto.html">Contacto</a>
             </div>
             <div class="menu-icon">
                 <a href="javascript:void(0);" class="hamburguesa" onclick="myFunction()">
-                <i class="fa fa-bars"></i>
+                    <i class="fa fa-bars"></i>
                 </a>
             </div>
         </div>
@@ -285,13 +317,8 @@ body {
     <script>
         function myFunction() {
             var x = document.getElementById("menu-nav");
-            if (x.className === "nav-links") {
-            x.className += " responsive";
-            } else {
-            x.className = "nav-links";
-            }
+            x.classList.toggle("responsive");
         }
     </script>
 </body>
 </html>
-
