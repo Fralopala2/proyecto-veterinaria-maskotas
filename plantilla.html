@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MASK!OTAS - Clínica Veterinaria</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<style>
+    
+/* Navegación */
+nav {
+    background-color: #009688;
+    color: white;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.nav-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo i {
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+}
+
+.logo span {
+    font-size: 1.15rem;
+    font-weight: bold;
+    color: white;
+}
+
+/* Estilos para enlaces de navegación */
+.nav-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.menu-icon .hamburguesa {
+    display: none;
+    font-size: 1.5rem;
+    color: white;
+}
+
+
+
+
+
+</style>
+
+<body>
+    <!-- Barra de navegación -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-paw"></i>
+                <span>MASK!OTAS</span>
+            </div>
+            <div id="menu-nav" class="nav-links">
+                <a href="#">Inicio</a>
+                <a href="#servicios">Servicios</a>
+                <a href="citas.html">Reservar Cita</a>
+                <a href="#blog">Blog</a>
+                <a href="#resenias">Reseñas</a>
+                <a href="#suscribirse">Suscribete</a>
+                <a href="contacto.html">Contacto</a>
+            </div>
+            <div class="menu-icon">
+                <a href="javascript:void(0);" class="hamburguesa" onclick="myFunction()">
+                <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- RELLENAR LO VUESTRO -->
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+        function myFunction() {
+            var x = document.getElementById("menu-nav");
+            if (x.className === "nav-links") {
+            x.className += " responsive";
+            } else {
+            x.className = "nav-links";
+            }
+        }
+    </script>
+</body>
+</html>
+
