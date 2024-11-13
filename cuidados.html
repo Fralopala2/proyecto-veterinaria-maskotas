@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MASK!OTAS - Clínica Veterinaria</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<style>
+    
+/* Navegación */
+nav {
+    background-color: #009688;
+    color: white;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.nav-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo i {
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+}
+
+.logo span {
+    font-size: 1.15rem;
+    font-weight: bold;
+    color: white;
+}
+
+/* Estilos para enlaces de navegación */
+.nav-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.menu-icon .hamburguesa {
+    display: none;
+    font-size: 1.5rem;
+    color: white;
+}
+
+body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #009688;
+            font-size: 2em;
+            text-align: left;
+            padding-top: 2cm;
+        }
+        h2 {
+            color: #00695C;
+            font-size: 1.5em;
+            margin-top: 1em;
+        }
+        p {
+            text-align: justify;
+            margin-top: 0.5em;
+            font-size: 1em;
+        }
+        article{
+            display: block;
+            unicode-bidi: isolate;
+        }
+        img{
+            border-radius: 0.5rem;
+            height: 315px;
+            width: 629;
+            display: inline;
+        }
+
+
+
+.blog {
+    display: flex;
+    gap: 2cm;
+    justify-content: center;
+    margin-top: 2em;
+}
+
+.blog-card {
+    background-color: white;
+    color: black;
+    width: 300px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    text-align: left;
+    transition: transform 0.2s ease-in-out;
+}
+
+.blog-card:hover {
+    transform: translateY(-5px);
+}
+
+.blog-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.blog-content {
+    padding: 15px;
+}
+
+.blog-content h3 {
+    font-size: 1.2em;
+    margin: 0;
+    color: #00695C;
+}
+
+.blog-content p {
+    font-size: 0.9em;
+    margin: 10px 0;
+    color: #555;
+}
+
+.blog-content a {
+    color: #009688;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 0.9em;
+}
+
+.blog-content a:hover {
+    text-decoration: underline;
+}
+
+.hero {
+    position: relative;
+    background-color: transparent;
+    color: white;
+    padding: 5rem 0;
+    text-align: center;
+    height: auto;
+    overflow: hidden;
+}
+.video-background video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+</style>
+
+<body>
+    <!-- Barra de navegación -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-paw"></i>
+                <span>MASK!OTAS</span>
+            </div>
+            <div id="menu-nav" class="nav-links">
+                <a href="#">Inicio</a>
+                <a href="#servicios">Servicios</a>
+                <a href="citas.html">Reservar Cita</a>
+                <a href="#blog">Blog</a>
+                <a href="#resenias">Reseñas</a>
+                <a href="#suscribirse">Suscribete</a>
+                <a href="contacto.html">Contacto</a>
+            </div>
+            <div class="menu-icon">
+                <a href="javascript:void(0);" class="hamburguesa" onclick="myFunction()">
+                <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="citas" class="hero">
+        <div class="video-background">
+            <video autoplay="" muted="" loop="">
+                <source src="videos/Cuidados.mp4" type="video/mp4">
+            </video>
+            <div class="overlay"></div>
+        </div>
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 style="color: white;text-align: center;">Cuidados básicos para tu cachorro</h1>
+                <p style="text-align: center;">Aprende los aspectos fundamentales para el cuidado de tu nuevo amigo.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <h1>Cuidado Básico para tu Mascota</h1>
+
+        <p>Los perros son compañeros leales y amorosos que dependen de nosotros para tener una vida saludable y feliz. Para garantizar su bienestar, es importante cuidar su socialización, higiene y salud. A continuación, te compartimos algunos aspectos fundamentales para el cuidado adecuado de tu perro.</p>
+
+        <h2>1. Socialización y Comportamiento</h2>
+        <p>La socialización y el entrenamiento son fundamentales para que los perros desarrollen un buen comportamiento y se sientan cómodos en diferentes situaciones. La socialización temprana y el aprendizaje adecuado ayudan a prevenir problemas de conducta y a construir una relación positiva con otras personas y animales.</p>
+        <p><strong>Exposición temprana:</strong> Los cachorros deben ser expuestos a diferentes personas, lugares y experiencias desde una edad temprana para que puedan adaptarse a su entorno. Esto les ayuda a evitar miedos o conductas agresivas en el futuro.</p>
+        <p><strong>Entrenamiento en obediencia:</strong> Es recomendable enseñar comandos básicos como “sentado”, “quieto” y “ven”. Esto no solo facilita el manejo del perro, sino que también fortalece el vínculo con el dueño y promueve su seguridad.</p>
+
+        <img src="imagenes/dosperros.png" alt="">
+
+        <h2>2. Higiene</h2>
+        <p>Mantener una buena higiene es esencial para evitar problemas de piel, infecciones y otros problemas de salud en tu perro.</p>
+        <p><strong>Cepillado:</strong> Cepillar a tu perro regularmente ayuda a eliminar el pelo muerto y mantiene su pelaje en buen estado. La frecuencia del cepillado dependerá de la raza y el tipo de pelaje.</p>
+        <p><strong>Baños:</strong> Generalmente, un baño cada 4 a 6 semanas es suficiente, aunque esto puede variar según la raza y el estilo de vida de tu perro. Usa siempre productos específicos para perros, ya que el pH de su piel es diferente al nuestro.</p>
+        <p><strong>Higiene dental:</strong> La salud dental es vital para los perros, ya que la acumulación de placa puede causar enfermedades. Puedes cepillar sus dientes con productos adecuados para perros o darle snacks dentales que ayudan a mantenerlos limpios.</p>
+        <p><strong>Corte de uñas:</strong> Las uñas demasiado largas pueden causar incomodidad e incluso deformaciones en las patas. La frecuencia del corte depende de cuánto desgaste natural tengan sus uñas al caminar.</p>
+
+        <img src="imagenes/higiene.png" alt="">
+
+        <h2>3. Salud y Atención Veterinaria</h2>
+        <p>Para mantener a tu perro saludable, es importante que tenga visitas regulares al veterinario y que esté al día con sus vacunas y controles de salud.</p>
+        <p><strong>Vacunas:</strong> Las vacunas protegen a los perros de enfermedades graves como el parvovirus, el moquillo y la rabia. Sigue el calendario de vacunación recomendado por el veterinario.</p>
+        <p><strong>Desparasitación:</strong> Los perros deben ser desparasitados regularmente para evitar parásitos internos (como lombrices) y externos (como pulgas y garrapatas).</p>
+        <p><strong>Chequeos regulares:</strong> Además de las vacunas, los chequeos anuales son esenciales para detectar cualquier problema de salud a tiempo.</p>
+        <p><strong>Esterilización:</strong> La esterilización es una decisión importante que ayuda a prevenir enfermedades y reduce la cantidad de animales abandonados. Consulta con tu veterinario sobre el mejor momento para hacerlo.</p>
+
+        <img src="imagenes/veterinario.png" alt="">
+
+        <h2>4. Cariño y Atención</h2>
+        <p>Los perros necesitan sentirse parte de la familia y recibir amor y atención. Pasar tiempo de calidad con ellos, respetar su espacio y aprender a leer sus señales de comunicación es fundamental para que tengan una vida plena.</p>
+        <p><strong>Vínculo emocional:</strong> Los perros son animales sociales que necesitan compañía. Asegúrate de pasar tiempo con ellos y darles afecto, lo que fortalece el vínculo entre tú y tu mascota.</p>
+        <p><strong>Educación positiva:</strong> La disciplina es importante, pero siempre debe estar basada en el refuerzo positivo, como premios y elogios, para enseñarles buenos comportamientos de manera amable y efectiva.</p>
+    
+        <img src="imagenes/atencion.png" alt="" style="margin-bottom: 2cm;">
+    
+       </div>
+
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>MASK!OTAS</h3>
+                    <p>Cuidando a tus mascotas con amor y profesionalismo desde 2024.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Horario</h4>
+                    <p>Lunes - Viernes: 9:00 - 20:00</p>
+                    <p>Sábados: 10:00 - 15:00</p>
+                    <p>Domingos: Emergencias</p>
+                </div>
+                <div class="footer-section">
+                    <h4 id="contacto">Contacto</h4>
+                    <p>📍 C/ dels Sants Just i Pastor, 70, 46940 Manises, València</p>
+                    <p>📞 +34 123 456 789</p>
+                    <p>✉️ info@MASK!OTAS.com</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Síguenos</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Información</h4>
+                    <div class="legal-links">
+                        <p><a href="#">Privacidad</a></p>
+                        <p><a href="#">Legal</a></p>
+                        <p><a href="#">Cookies</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function myFunction() {
+            var x = document.getElementById("menu-nav");
+            if (x.className === "nav-links") {
+            x.className += " responsive";
+            } else {
+            x.className = "nav-links";
+            }
+        }
+    </script>
+</body>
+</html>
+
