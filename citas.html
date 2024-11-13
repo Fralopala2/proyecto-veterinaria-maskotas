@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cita Previa</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             background-color: #f7f7f7;
             min-height: 100vh;
-            padding-top: 80px; /* Añadir padding para compensar la navbar fija */
+            padding-top: 80px;
         }
 
         /* Navegación */
@@ -44,41 +45,54 @@
         }
 
         .logo span {
-            font-size: 1.25rem;
+            font-size: 1.15rem;
             font-weight: bold;
-            text-decoration: inherit;
             color: white;
-            text-decoration-color: #009688;
         }
 
+        /* Estilos para enlaces de navegación */
         .nav-links {
-            display: none;
+            display: flex;
+            gap: 1rem;
         }
 
-        @media (min-width: 768px) {
+        .menu-icon .hamburguesa {
+            display: none;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        /* Mostrar menú hamburguesa en pantallas pequeñas */
+        @media screen and (max-width: 768px) {
             .nav-links {
+                display: none;
+                flex-direction: column;
+                background-color: #00695C;
+                width: 100%;
+                position: absolute;
+                top: 60px;
+                left: 0;
+            }
+
+            .nav-links.responsive {
                 display: flex;
-                gap: 1.5rem;
+            }
+
+            .menu-icon .hamburguesa {
+                display: block;
             }
         }
 
-        .nav-links a {
+        .nav-container a {
             color: white;
             text-decoration: none;
             transition: color 0.3s;
+            text-align: center;            
         }
 
-        .nav-links a:hover {
+        .nav-container a:hover {
             color: #bfdbfe;
-        }
-
-        a:-webkit-any-link {
-            color: -webkit-link;
-            cursor: pointer;
-            text-decoration: none;
-            color: white;
-            text-decoration: none;
-            transition: color 0.3s;
+            background-color: #009688;
         }
 
         /* Contenedor del calendario */
@@ -103,20 +117,21 @@
         .calendar {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 5px;
+            gap: 3px;
             padding: 15px;
+        }
+
+        .day-of-week, .day {
+            text-align: center;
+            padding: 10px;
         }
 
         .day-of-week {
             font-weight: bold;
-            text-align: center;
-            padding: 5px;
             color: #4CAF50;
         }
 
         .day {
-            text-align: center;
-            padding: 10px;
             background-color: #f1f1f1;
             border-radius: 4px;
             cursor: pointer;
@@ -160,26 +175,6 @@
         .footer button:hover {
             background-color: #00695C;
         }
-
-        /* Responsive adjustments */
-        @media (max-width: 767px) {
-            .calendar-container {
-                width: 95%;
-            }
-
-            /* .calendar {
-                grid-template-columns: repeat(3, 1fr); /* 3 columnas para móviles 
-            } */
-
-            .calendar-header, .footer button {
-                font-size: 14px;
-            }
-
-            .day, .day-of-week {
-                font-size: 12px;
-                padding: 8px;
-            }
-        }
     </style>
 </head>
 <body>
@@ -187,19 +182,25 @@
         <div class="nav-container">
             <div class="logo">
                 <i class="fas fa-paw"></i>
-                <a href="index.html"><span>MASK!OTAS</span></a>
+                <span>MASK!OTAS</span>
             </div>
-            <div class="nav-links">
+            <div id="menu-nav" class="nav-links">
                 <a href="index.html">Inicio</a>
-                <a href="index.html#servicios">Servicios</a>
+                <a href="#servicios">Servicios</a>
                 <a href="citas.html">Reservar Cita</a>
-                <a href="index.html#blog">Blog</a>
-                <a href="index.html#resenias">Reseñas</a>
-                <a href="index.html#suscribirse">Suscríbete</a>
+                <a href="#blog">Blog</a>
+                <a href="#resenias">Reseñas</a>
+                <a href="#suscribirse">Suscríbete</a>
                 <a href="contacto.html">Contacto</a>
+            </div>
+            <div class="menu-icon">
+                <a href="javascript:void(0);" class="hamburguesa" onclick="myFunction()">
+                    <i class="fa fa-bars"></i>
+                </a>
             </div>
         </div>
     </nav>
+
     <div class="calendar-container">
         <div class="calendar-header">Seleccione la Fecha para su Cita</div>
         <div class="calendar">
@@ -246,6 +247,7 @@
             <div class="day">28</div>
             <div class="day">29</div>
             <div class="day">30</div>
+            <div class="day">31</div>
         </div>
         <div class="footer">
             <button onclick="confirmarCita()">Confirmar Cita</button>
@@ -253,7 +255,11 @@
     </div>
 
     <script>
-        // Lógica para seleccionar el día
+        function myFunction() {
+            var x = document.getElementById("menu-nav");
+            x.classList.toggle("responsive");
+        }
+
         const days = document.querySelectorAll('.day');
         days.forEach(day => {
             day.addEventListener('click', () => {
@@ -263,7 +269,6 @@
             });
         });
 
-        // Función para confirmar la cita
         function confirmarCita() {
             const selectedDay = document.querySelector('.day.selected');
             if (selectedDay) {

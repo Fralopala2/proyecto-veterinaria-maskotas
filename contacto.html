@@ -51,32 +51,54 @@
         }
 
         .logo span {
-            font-size: 1.25rem;
+            font-size: 1.15rem;
             font-weight: bold;
-            text-decoration: inherit;
             color: white;
-            text-decoration-color: #009688;
         }
 
+        /* Estilos para enlaces de navegación */
         .nav-links {
-            display: none;
+            display: flex;
+            gap: 1rem;
         }
 
-        @media (min-width: 768px) {
+        .menu-icon .hamburguesa {
+            display: none;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        /* Mostrar menú hamburguesa en pantallas pequeñas */
+        @media screen and (max-width: 768px) {
             .nav-links {
+                display: none;
+                flex-direction: column;
+                background-color: #00695C;
+                width: 100%;
+                position: absolute;
+                top: 60px;
+                left: 0;
+            }
+
+            .nav-links.responsive {
                 display: flex;
-                gap: 1.5rem;
+            }
+
+            .menu-icon .hamburguesa {
+                display: block;
             }
         }
 
-        .nav-links a {
+        .nav-container a {
             color: white;
             text-decoration: none;
             transition: color 0.3s;
+            text-align: center;            
         }
 
-        .nav-links a:hover {
+        .nav-container a:hover {
             color: #bfdbfe;
+            background-color: #009688;
         }
 
         /* Formulario de contacto */
@@ -143,16 +165,21 @@
         <div class="nav-container">
             <div class="logo">
                 <i class="fas fa-paw"></i>
-                <a href="index.html"><span>MASK!OTAS</span></a>
+                <span>MASK!OTAS</span>
             </div>
-            <div class="nav-links">
+            <div id="menu-nav" class="nav-links">
                 <a href="index.html">Inicio</a>
-                <a href="index.html#servicios">Servicios</a>
+                <a href="#servicios">Servicios</a>
                 <a href="citas.html">Reservar Cita</a>
-                <a href="index.html#blog">Blog</a>
-                <a href="index.html#resenias">Reseñas</a>
-                <a href="index.html#suscribirse">Suscríbete</a>
+                <a href="#blog">Blog</a>
+                <a href="#resenias">Reseñas</a>
+                <a href="#suscribirse">Suscríbete</a>
                 <a href="contacto.html">Contacto</a>
+            </div>
+            <div class="menu-icon">
+                <a href="javascript:void(0);" class="hamburguesa" onclick="myFunction()">
+                    <i class="fa fa-bars"></i>
+                </a>
             </div>
         </div>
     </nav>
@@ -193,5 +220,11 @@
             </div>
         </div>
     </div>
+    <script>
+        function myFunction() {
+            var x = document.getElementById("menu-nav");
+            x.classList.toggle("responsive");
+        }
+    </script>
 </body>
 </html>
