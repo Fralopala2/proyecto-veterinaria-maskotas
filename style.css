@@ -246,7 +246,7 @@ nav {
 
 .service-card i {
     font-size: 2.25rem;
-    color: #00695C;
+    color: #009688;
     margin-bottom: 1rem;
 }
 
@@ -442,7 +442,7 @@ nav {
 footer {
     background-color: #1f2937;
     color: white;
-    padding: 3rem 0 0 0;
+    padding: 1.5rem;
 }
 
 .footer-grid {
@@ -470,7 +470,8 @@ footer {
 
 .footer-section p {
     color: #9ca3af;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.3rem;
+    margin-top: 0px;
 }
 
 .social-links {
