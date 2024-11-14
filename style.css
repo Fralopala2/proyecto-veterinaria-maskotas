@@ -229,6 +229,17 @@ nav {
     border: outset;
 }
 
+.no-link {
+    color: inherit;
+    text-decoration: none;
+    cursor: default;
+}
+
+/* Opcional: cursor pointer al pasar sobre las tarjetas de servicio */
+.no-link:hover .service-card {
+    cursor: pointer;
+}
+
 .service-card:hover {
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 }
