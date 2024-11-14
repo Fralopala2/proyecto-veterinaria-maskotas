@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MASK!OTAS - Servicios</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            /*padding: 80px 20px;*/
+        }
+
+        /* Navegación */
+        nav {
+            background-color: #009688;
+            color: white;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            font-size: 1.5rem;
+            margin-right: 0.5rem;
+        }
+
+        .logo span {
+            font-size: 1.15rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        /* Estilos para enlaces de navegación */
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            font-size: larger;
+            padding: 5px;
+        }
+
+        .menu-icon .hamburguesa {
+            display: none;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        /* Mostrar menú hamburguesa en pantallas pequeñas */
+        @media screen and (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                background-color: #00695C;
+                width: 100%;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                padding: 0.5rem;
+            }
+
+            .nav-links.responsive {
+                display: flex;
+            }
+
+            .menu-icon .hamburguesa {
+                display: block;
+            }
+        }
+
+        .nav-container a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+            text-align: center;
+        }
+
+        .nav-container a:hover {
+            color: #bfdbfe;
+            background-color: #009688;
+        }
+
+        /* Contenido principal */
+        .content {
+            padding: 20px;
+            max-width: 800px;
+            margin: auto;
+        }
+
+        h1 {
+            color: #009688;
+            text-align: center;
+            padding-top: 80px;
+        }
+
+        /* Tarjetas de servicios */
+        .service-card {
+            background-color: white;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .service-card h2 {
+            color: #333;
+        }
+
+        .service-card p {
+            line-height: 1.6;
+        }
+
+        /* Estilos de imagen */
+        .service-card img {
+            width: 100%;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1f2937;
+            color: white;
+            padding: 1.5rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .footer-grid {
+                grid-template-columns: repeat(5, 1fr);
+            }
+        }
+
+        .footer-section h3 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section h4 {
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section p {
+            color: #9ca3af;
+            margin-bottom: 0.3rem;
+            margin-top: 0px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .legal-links p {
+            color: #9ca3af;
+            margin-top: 0.1rem;
+            padding: 0;
+        }
+
+        .social-links a,
+        .legal-links a {
+            color: #9ca3af;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover,
+        .legal-links a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            margin-top: 3rem;
+            padding: 1rem 0;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            max-width: 600px;
+            margin: 0 auto;
+            gap: 0.25rem;
+        }
+
+        .footer-links a {
+            color: #9ca3af;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        /* Utilidades adicionales */
+        .text-center {
+            text-align: center;
+        }
+
+        .font-bold {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Nav-bar -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-paw"></i>
+                <span>MASK!OTAS</span>
+            </div>
+            <div id="menu-nav" class="nav-links">
+                <a href="index.html">Inicio</a>
+                <a href="servicios.html">Servicios</a>
+                <a href="citas.html">Reservar Cita</a>
+                <a href="index.html#blog">Blog</a>
+                <a href="index.html#resenias">Reseñas</a>
+                <a href="index.html#suscribirse">Suscríbete</a>
+                <a href="contacto.html">Contacto</a>
+            </div>
+            <div class="menu-icon">
+                <a href="javascript:void(0);" class="hamburguesa" onclick="myFunction()">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido principal -->
+    <div class="container">
+        <h1>Servicios</h1>
+        <div class="service-card">
+            <h2>Revisiones completas y seguimiento personalizado para tu mascota</h2>
+            <p>Ofrecemos revisiones completas y un seguimiento personalizado para asegurar la salud y el bienestar de tu mascota. Nuestro equipo está dedicado a detectar cualquier problema de salud a tiempo y a proporcionar las mejores recomendaciones para su cuidado continuo.</p>
+            <img src="https://via.placeholder.com/800x400?text=Consulta+Veterinaria" alt="Imagen de consulta veterinaria">
+        </div>
+
+        <div class="service-card">
+            <h2>Cuidados Específicos</h2>
+            <p>Realizamos chequeos específicos según las necesidades de cada mascota, incluyendo exámenes físicos, pruebas de laboratorio, y consultas de comportamiento.</p>
+            <img src="https://via.placeholder.com/800x400?text=Chequeo+Veterinario" alt="Imagen de chequeo veterinario">
+        </div>
+
+        <!-- Servicio de Vacunación -->
+        <div class="service-card">
+            <h2>Vacunación</h2>
+            <p>Mantén a tu mascota protegida contra enfermedades con nuestro programa de vacunación. Ofrecemos todas las vacunas necesarias para cachorros, adultos y mascotas mayores.</p>
+            <img src="https://via.placeholder.com/800x400?text=Vacunación+para+Mascotas" alt="Vacunación para mascotas">
+        </div>
+
+        <!-- Servicio de Peluquería -->
+        <div class="service-card">
+            <h2>Peluquería</h2>
+            <p>¡Tu mascota merece lucir genial! Nuestro servicio de peluquería incluye corte de pelo, baño y cuidados especiales para cada tipo de pelaje, ayudando a tu mascota a verse y sentirse bien.</p>
+            <img src="https://via.placeholder.com/800x400?text=Peluquería+para+Mascotas" alt="Peluquería para mascotas">
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>MASK!OTAS</h3>
+                    <p>Cuidando a tus mascotas con amor y profesionalismo desde 2024.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Horario</h4>
+                    <p>Lunes - Viernes: 9:00 - 20:00</p>
+                    <p>Sábados: 10:00 - 15:00</p>
+                    <p>Domingos: Emergencias</p>
+                </div>
+                <div class="footer-section">
+                    <h4 id="contacto">Contacto</h4>
+                    <p>📍 C/ dels Sants Just i Pastor, 70, 46940 Manises, València</p>
+                    <p>📞 +34 123 456 789</p>
+                    <p>✉️ info@MASK!OTAS.com</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Síguenos</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Información</h4>
+                    <div class="legal-links">
+                        <p><a href="#">Privacidad</a></p>
+                        <p><a href="#">Legal</a></p>
+                        <p><a href="#">Cookies</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function myFunction() {
+            var x = document.getElementById("menu-nav");
+            x.classList.toggle("responsive");
+        }
+    </script>
+</body>
+</html>
