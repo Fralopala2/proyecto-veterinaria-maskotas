@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicios</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>/* Estilos generales */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgb(249, 250, 251);
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+        
+        /* Navegación */
+        nav {
+            background-color: #009688;
+            color: white;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            font-size: 1.5rem;
+            margin-right: 0.5rem;
+        }
+        
+        .logo span {
+            font-size: 1.15rem;
+            font-weight: bold;
+            color: white;
+        }
+        
+        /* Estilos para enlaces de navegación */
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .menu-icon .hamburguesa {
+            display: none;
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        /* Mostrar menú hamburguesa en pantallas pequeñas */
+        @media screen and (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                background-color: #00695C;
+                width: 100%;
+                position: absolute;
+                top: 60px;
+                left: 0;
+            }
+        
+            .nav-links.responsive {
+                display: flex;
+            }
+        
+            .menu-icon .hamburguesa {
+                display: block;
+            }
+        }
+        
+        .nav-container a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+            text-align: center;            
+        }
+        
+        .nav-container a:hover {
+            color: #bfdbfe;
+            background-color: #009688;
+        }
+        
+        /* Hero Section */
+        .hero {
+            position: relative;
+            background-color: transparent;
+            color: white;
+            padding: 5rem 0;
+            text-align: center;
+            height: auto;
+            /* Cambiado de 100vh a auto */
+            overflow: hidden;
+        }
+        
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        
+        .video-background video {
+            /*position: absolute;*/
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .overlay {
+            /*position: absolute;*/
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 105, 92, 0.7);
+        }
+        
+        .hero-container {
+            position: relative;
+            z-index: 1;
+            /* display: block; */
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 0;
+            /* Añadido padding para dar altura específica a la sección */
+        }
+        
+        .hero-content {
+            text-align: center;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        }
+        
+        .hero h1 {
+            font-size: 3.75rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            padding: 2px;
+        }
+        
+        /* Media queries */
+        @media (max-width: 768px) {
+            .hero-container {
+                flex-direction: column;
+                padding: 3rem 0;
+            }
+        
+            .hero-logo {
+                margin: 0 0 2rem 0;
+            }
+        
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+        
+        .cta-button {
+            background-color: #009688;
+            color: black;
+            padding: 0.75rem 2rem;
+            border-radius: 9999px;
+            font-weight: bold;
+            border: none;
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+        
+        .cta-button a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .cta-button:hover {
+            background-color: #00695C;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #1f2937;
+            color: white;
+            padding: 1.5rem;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 2rem;
+        }
+        
+        @media (min-width: 768px) {
+            .footer-grid {
+                grid-template-columns: repeat(5, 1fr);
+            }
+        }
+        
+        .footer-section h3 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-section h4 {
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-section p {
+            color: #9ca3af;
+            margin-bottom: 0.3rem;
+            margin-top: 0px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .legal-links p {
+            color: #9ca3af;
+            margin-top: 0.1rem;
+            padding: 0;
+        }
+        
+        .social-links a,
+        .legal-links a {
+            color: #9ca3af;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover,
+        .legal-links a:hover {
+            color: white;
+        }
+        
+        .footer-bottom {
+            margin-top: 3rem;
+            padding: 1rem 0;
+            text-align: center;
+        }
+        
+        .footer-links {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            max-width: 600px;
+            margin: 0 auto;
+            gap: 0.25rem;
+        }
+        
+        .footer-links a {
+            color: #9ca3af;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        /* Utilidades adicionales */
+        .text-center {
+            text-align: center;
+        }
+        
+        .font-bold {
+            font-weight: bold;
+        }
+        
+        /* Responsive utilities */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+        
+            .newsletter-form form {
+                flex-direction: column;
+            }
+        
+            .footer-links {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+        
+        /* Animaciones */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+        
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .service-card,
+        .blog-card,
+        .testimonial-card {
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        /* Accesibilidad */
+        :focus {
+            outline: 2px solid #3b82f6;
+            outline-offset: 2px;
+        }
+        
+        /* Scroll suave */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Ajustes para impresión */
+        @media print {
+        
+            nav,
+            .newsletter,
+            .social-links {
+                display: none;
+            }
+        
+            body {
+                color: black;
+                background: white;
+            }
+        
+            .container {
+                width: 100%;
+                max-width: none;
+                padding: 0;
+            }
+            /* Texto de los ejercicios */
+        }
+        .grid-container {
+            grid-row: auto auto auto;
+            grid-column: auto auto; 
+            display: grid;
+            justify-content: center;
+        }
+        .imagen-ejercicio img{
+            display: grid;
+            height: 200px;
+            width: 300px;
+            
+        }
+        .grid-item {
+            border: 3px solid #ccc;
+            padding: 30px;
+            margin-top: 10px;
+            text-align: justify;
+        
+        }
+        </style>
+</head>
+<body>
+    <!-- Barra de navegación -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-paw"></i>
+                <span>MASK!OTAS</span>
+            </div>
+            <div id="menu-nav" class="nav-links">
+                <a href="./index.html#">Inicio</a>
+                <a href="./index.html#servicios">Servicios</a>
+                <a href="citas.html">Reservar Cita</a>
+                <a href="./index.html#blog">Blog</a>
+                <a href="./index.html#resenias">Reseñas</a>
+                <a href="./index.html#suscribirse">Suscribete</a>
+                <a href="contacto.html">Contacto</a>
+            </div>
+            <div class="menu-icon">
+                <a href="javascript:void(0);" class="hamburguesa" onclick="myFunction()">
+                <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+    <section id="citas" class="hero">
+        <div class="video-background">
+            <video autoplay muted loop>
+                <source src="imagenes-ejercicio/perro-ejercicio.mp4" type="video/mp4">
+            </video>
+            <div class="overlay"></div>
+        </div>
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Ejercicios recomendados</h1>
+                <p>Primera consulta gratuita para nuevos pacientes</p>
+            </div>
+        </div>
+    </section>
+    </div>
+        <div class="grid-container">
+        <!-- Ejercicios para Perros -->
+        <div class="grid-item">
+            <h2>Ejercicios para Perros</h2>
+    
+            <div class="exercise">
+                <h3>Paseos y Caminatas Diarias</h3>
+                <p><strong>Descripción:</strong> Un paseo diario ayuda a mantener a tu perro activo, a la vez que lo estimula mentalmente al exponerse a nuevos olores y sonidos.</p>
+                <p><strong>Sugerencia:</strong> Varía la ruta para darle experiencias nuevas. Para razas enérgicas, camina 30 minutos o más, mientras que las razas pequeñas pueden disfrutar paseos más cortos.</p>
+            </div>
+    
+            <div class="exercise">
+                <h3>Juegos de Búsqueda (Fetch)</h3>
+                <p><strong>Descripción:</strong> Lanzar una pelota o juguete y pedirle al perro que lo traiga de vuelta.</p>
+                <p><strong>Beneficios:</strong> Mejora velocidad, agilidad y fortalece la musculatura.</p>
+                <p><strong>Recomendación:</strong> Comienza con distancias cortas y aumenta gradualmente. Usa juguetes seguros para evitar lesiones.</p>
+            </div>
+    
+            <div class="exercise">
+                <h3>Ejercicios de Agilidad</h3>
+                <p><strong>Descripción:</strong> Crear circuitos de obstáculos para que el perro salte, pase por túneles y rampas.</p>
+                <p><strong>Beneficios:</strong> Mejora coordinación, equilibrio y estimula su mente.</p>
+                <p><strong>Sugerencia:</strong> Usa cajas, sillas y túneles plegables para improvisar un circuito en casa.</p>
+            </div>
+    
+            <div class="exercise">
+                <h3>Buscar Objetos Escondidos (Olfateo)</h3>
+                <p><strong>Descripción:</strong> Esconde golosinas o juguetes en distintas áreas para que el perro los encuentre usando su olfato.</p>
+                <p><strong>Beneficios:</strong> Estimula su sentido del olfato y ofrece una actividad mental desafiante.</p>
+            </div>
+    
+            <div class="exercise">
+                <h3>Nadar</h3>
+                <p><strong>Descripción:</strong> Actividad ideal para perros que disfrutan del agua. Ejercicio de bajo impacto que fortalece sus músculos.</p>
+                <p><strong>Beneficios:</strong> Mejora la resistencia cardiovascular y es excelente para perros con problemas articulares.</p>
+            </div>
+    
+            <div class="exercise">
+                <h3>Juego de Jalar la Cuerda (Tug of War)</h3>
+                <p><strong>Descripción:</strong> Usa un juguete de cuerda para que el perro lo muerda y trate de “ganar” jalando hacia él.</p>
+                <p><strong>Beneficios:</strong> Fortalece mandíbula y musculatura de patas delanteras.</p>
+            </div>
+            <div class="imagen-ejercicio"><img src="./imagenes-ejercicio/ejercicio-perro.jpeg" alt="perros-ejercicios"></div>
+        </div>
+    
+        <!-- Ejercicios para Gatos -->
+        <div class="grid-item">
+            <h2>Ejercicios para Gatos</h2>
+    
+            <div class="exercise">
+                <h3>Caza con Juguetes (Plumero o Ratón de Peluche)</h3>
+                <p><strong>Descripción:</strong> Usa juguetes que simulen presas para que los persigan y salten.</p>
+                <p><strong>Beneficios:</strong> Estimula su instinto de caza, beneficioso para su salud física y mental.</p>
+            </div>
+    
+            <div class="exercise">
+                <h3>Escaladores y Árboles para Gatos</h3>
+                <p><strong>Descripción:</strong> Proporciona estructuras para que el gato trepe, rasque y explore.</p>
+                <p><strong>Beneficios:</strong> Mejora agilidad y fortalece su musculatura.</p>
+            </div>
+    
+            <div class="exercise">
+                <h3>Juegos de Rastrear y Encontrar</h3>
+                <p><strong>Descripción:</strong> Esconde pequeños premios en zonas accesibles para que el gato los encuentre.</p>
+                <p><strong>Beneficios:</strong> Fomenta su sentido del olfato y capacidad de rastreo.</p>
+            </div>
+    
+            <div class="exercise">
+                <h3>Láser para Gatos</h3>
+                <p><strong>Descripción:</strong> Utiliza un puntero láser para que el gato persiga el punto de luz.</p>
+                <p><strong>Beneficios:</strong> Ideal para gatos con alta energía, mantiene su agilidad.</p>
+            </div>
+    
+            <div class="exercise">
+                <h3>Caja de Cartón y Túneles</h3>
+                <p><strong>Descripción:</strong> Los gatos adoran esconderse y saltar en cajas o túneles.</p>
+                <p><strong>Beneficios:</strong> Les permite explorar y les brinda un entorno divertido.</p>
+            </div>
+            <div class="imagen-ejercicio"><img src="./imagenes-ejercicio/ejercicio-gato.jpeg" alt="gatos-ejercicios"></div>
+        </div>
+    
+        <!-- Ejercicios para Otros Tipos de Mascotas -->
+        <div class="grid-item">
+            <h2>Ejercicios para Otros Tipos de Mascotas</h2>
+    
+            <div class="exercise">
+                <h3>Pequeños Roedores (como conejos, hámsters)</h3>
+                <p><strong>Ejercicio en Ruedas o Laberintos:</strong> Coloca ruedas o laberintos en sus jaulas para que puedan correr y explorar.</p>
+            </div>
+            <div class="imagen-ejercicio"><img src="./imagenes-ejercicio/ejercicio-hamster.jpeg" alt="hamster-ejercicios"></div>
+            <div class="exercise">
+                <h3>Aves (como periquitos, loros)</h3>
+                <p><strong>Vuelo Libre Controlado o Ejercicio de Percha:</strong> Permíteles volar en un área segura o saltar entre perchas.</p>
+            </div>
+            <div class="imagen-ejercicio"><img src="./imagenes-ejercicio/ejercicio-ave.jpeg" alt="aves-ejercicios"></div>
+            <div class="exercise">
+                <h3>Peces (como peces de agua dulce o salada)</h3>
+                <p><strong>Enriquecimiento en el Acuario:</strong> Añade decoraciones y escondites para que puedan explorar y nadar.</p>
+            </div>
+            <div class="imagen-ejercicio"><img src="./imagenes-ejercicio/ejercicio-peces.jpeg" alt="peces-ejercicios"></div>
+        </div>
+    </div>
+
+    </div>
+        <!-- Footer -->
+        <footer>
+            <div class="container">
+                <div class="footer-grid">
+                    <div class="footer-section">
+                        <h3>MASK!OTAS</h3>
+                        <p>Cuidando a tus mascotas con amor y profesionalismo desde 2024.</p>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Horario</h4>
+                        <p>Lunes - Viernes: 9:00 - 20:00</p>
+                        <p>Sábados: 10:00 - 15:00</p>
+                        <p>Domingos: Emergencias</p>
+                    </div>
+                    <div class="footer-section">
+                        <h4 id="contacto">Contacto</h4>
+                        <p>📍 C/ dels Sants Just i Pastor, 70, 46940 Manises, València</p>
+                        <p>📞 +34 123 456 789</p>
+                        <p>✉️ info@MASK!OTAS.com</p>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Síguenos</h4>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Información</h4>
+                        <div class="legal-links">
+                            <p><a href="#">Privacidad</a></p>
+                            <p><a href="#">Legal</a></p>
+                            <p><a href="#">Cookies</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    
+        <script>
+            function myFunction() {
+                var x = document.getElementById("menu-nav");
+                if (x.className === "nav-links") {
+                x.className += " responsive";
+                } else {
+                x.className = "nav-links";
+                }
+            }
+        </script>
+</body>
+</html>
