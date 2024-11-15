@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MASK!OTAS - Servicios</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script type="text/javascript" src="scripts/index.js"></script>
     <style>
         /* Estilos generales */
         body {
@@ -256,7 +257,7 @@
                 <a href="contacto.html">Contacto</a>
             </div>
             <div class="menu-icon">
-                <a href="javascript:void(0);" class="hamburguesa" onclick="myFunction()">
+                <a href="javascript:void(0);" class="hamburguesa" onclick="abrirMenuMovil()">
                     <i class="fa fa-bars"></i>
                 </a>
             </div>
@@ -325,20 +326,13 @@
                 <div class="footer-section">
                     <h4>Información</h4>
                     <div class="legal-links">
-                        <p><a href="#">Privacidad</a></p>
-                        <p><a href="#">Legal</a></p>
-                        <p><a href="#">Cookies</a></p>
+                        <p><a href="legal.html#privacidad">Privacidad</a></p>
+                        <p><a href="legal.html#legal">Legal</a></p>
+                        <p><a href="legal.html#cookies">Cookies</a></p>
                     </div>
                 </div>
             </div>
         </div>
     </footer>
-
-    <script>
-        function myFunction() {
-            var x = document.getElementById("menu-nav");
-            x.classList.toggle("responsive");
-        }
-    </script>
 </body>
 </html>
