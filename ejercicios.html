@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ejercicios</title>
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
     /* Estilos generales */
@@ -216,7 +217,7 @@
         
         @media (min-width: 768px) {
             .footer-grid {
-                grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(5, 1fr);
             }
         }
         
@@ -370,16 +371,21 @@
         }
         .imagen-ejercicio img{
             display: grid;
-            height: 200px;
-            width: 300px;
+            height: auto;
+            width: 100%;
             
         }
         .grid-item {
-            border: 3px solid #ccc;
+            /* border: 3px solid #ccc; */
             padding: 30px;
             margin-top: 10px;
             text-align: justify;
         
+        }
+
+        .grid-item h2 {
+            color: #00695C;
+
         }
     </style>
 </head>
@@ -424,7 +430,8 @@
     </section>
     </div>
         <div class="grid-container">
-        <!-- Ejercicios para Perros -->
+    <!-- Ejercicios para Perros -->
+    
         <div class="grid-item">
             <h2>Ejercicios para Perros</h2>
     
@@ -465,10 +472,11 @@
                 <p><strong>Descripción:</strong> Usa un juguete de cuerda para que el perro lo muerda y trate de “ganar” jalando hacia él.</p>
                 <p><strong>Beneficios:</strong> Fortalece mandíbula y musculatura de patas delanteras.</p>
             </div>
-            <div class="imagen-ejercicio"><img src="imagenes-ejercicio/ejercicio-perro.jpeg" alt="perros-ejercicios"></div>
+            <div class="imagen-ejercicio"><img src="imagenes/ejercicio-perro.jpeg" alt="perros-ejercicios"></div>
         </div>
     
-        <!-- Ejercicios para Gatos -->
+    <!-- Ejercicios para Gatos -->
+    
         <div class="grid-item">
             <h2>Ejercicios para Gatos</h2>
     
@@ -504,7 +512,8 @@
             <div class="imagen-ejercicio"><img src="imagenes/ejercicio-gato.jpeg" alt="gatos-ejercicios"></div>
         </div>
     
-        <!-- Ejercicios para Otros Tipos de Mascotas -->
+    <!-- Ejercicios para Otros Tipos de Mascotas -->
+    
         <div class="grid-item">
             <h2>Ejercicios para Otros Tipos de Mascotas</h2>
     
@@ -527,7 +536,9 @@
     </div>
 
     </div>
-        <!-- Footer -->
+
+    <!-- Footer -->
+    
         <footer>
             <div class="container">
                 <div class="footer-grid">
