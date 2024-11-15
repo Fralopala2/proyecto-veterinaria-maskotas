@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MASK!OTAS - Clínica Veterinaria</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<style>
+/* Navegación */
+nav {
+    background-color: #009688;
+    color: white;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.nav-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo i {
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+}
+
+.logo span {
+    font-size: 1.15rem;
+    font-weight: bold;
+    color: white;
+}
+
+.nav-links {
+    display: flex;
+    gap: 1rem;
+    font-size: larger;
+    padding: 5px;
+    }
+
+.menu-icon .hamburguesa {
+    display: none;
+    font-size: 1.5rem;
+    color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        background-color: #009688;
+        width: 100%;
+        position: absolute;
+        top: 60px;
+        left: 0;
+    }
+
+    .nav-links a {
+        text-align: center;
+        display: block;
+        color: white;
+        text-decoration: none;
+    }
+
+    .menu-icon .hamburguesa {
+        display: block;
+        cursor: pointer;
+    }
+
+    /* Mostrar el menú cuando tiene la clase 'responsive' */
+    .nav-links.responsive {
+        display: flex;
+    }
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.3;
+    margin-top: 60px; /* Separar el contenido de la barra de navegación */
+}
+
+h1 {
+    color: #009688;
+    font-size: 2em;
+    text-align: left;
+    padding-top: 2cm;
+}
+
+h2 {
+    color: #00695C;
+    font-size: 1.5em;
+    margin-top: 1em;
+}
+
+p {
+    text-align: justify;
+    margin-top: 0.5em;
+    font-size: 1em;
+}
+
+img {
+    border-radius: 0.5rem;
+    height: auto;
+    width: 100%;
+    display: block;
+}
+
+.hero {
+    position: relative;
+    background-color: transparent;
+    color: white;
+    padding: 5rem 0;
+    text-align: center;
+    height: auto;
+    overflow: hidden;
+}
+
+.video-background video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+</style>
+
+<body>
+    <!-- Barra de navegación -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-paw"></i>
+                <span>MASK!OTAS</span>
+            </div>
+            <div id="menu-nav" class="nav-links">
+                <a href="index.html">Inicio</a>
+                <a href="servicios.html">Servicios</a>
+                <a href="citas.html">Reservar Cita</a>
+                <a href="index.html#blog">Blog</a>
+                <a href="index.html#resenias">Reseñas</a>
+                <a href="index.html#suscribirse">Suscribete</a>
+                <a href="contacto.html">Contacto</a>
+            </div>
+            <div class="menu-icon">
+                <a href="javascript:void(0);" class="hamburguesa" onclick="myFunction()">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="citas" class="hero">
+        <div class="video-background">
+            <video autoplay="" muted="" loop="">
+                <source src="videos/nutricion.mp4" type="video/mp4">
+            </video>
+            <div class="overlay"></div>
+        </div>
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 style="color: white;text-align: center;">Nutrición</h1>
+                <p style="text-align: center;">Como darles lo mejor para que crezcan sanos y fuertes</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <h1>Nutrición</h1>
+
+        <p>La nutrición de las mascotas es esencial para su bienestar, longevidad y calidad de vida</p>
+
+        <h2>1. Alimentación balanceada:</h2>
+        <p> Las mascotas necesitan una dieta equilibrada que incluya proteínas, carbohidratos, grasas, vitaminas y minerales en proporciones adecuadas según su especie, edad, tamaño y nivel de actividad. Un alimento balanceado previene deficiencias nutricionales y problemas de salud. Además, una dieta adaptada a sus necesidades individuales contribuye a mantener su energía y vitalidad a lo largo del día, evitando enfermedades relacionadas con la malnutrición y promoviendo su bienestar general.</p>
+
+        <img src="imagenes/nutricion.png" alt="">
+
+        <h2>2. Calidad de los ingredientes:</h2>
+        <p>Optar por alimentos de alta calidad ayuda a asegurar que la mascota reciba nutrientes digestibles y libres de aditivos perjudiciales. Leer las etiquetas y buscar alimentos con ingredientes naturales y proteínas de origen animal puede marcar la diferencia en su salud. Los ingredientes de calidad también facilitan la digestión, permiten una mejor absorción de nutrientes y son menos propensos a causar reacciones alérgicas u otros problemas derivados de aditivos artificiales.</p>
+        <img src="imagenes/nutricion1.jpg" alt="">
+
+        <h2>3. Control de porciones y horarios:</h2>
+        La cantidad de alimento que una mascota necesita depende de su tamaño y actividad física. Controlar las porciones y establecer horarios regulares de alimentación previene problemas como la obesidad y el sobrepeso, que son comunes en mascotas. Mantener un horario regular también ayuda a la mascota a establecer rutinas saludables, mejorar su digestión y reducir el riesgo de problemas gastrointestinales.</p>
+
+        <img src="imagenes/nutricion2.jpg" alt="">
+
+        <h2>4. Hidratación:</h2>
+        El agua es esencial para la salud de las mascotas, ya que ayuda en la digestión, la eliminación de toxinas y el equilibrio de temperatura corporal. Asegurarse de que tengan acceso a agua fresca en todo momento es tan importante como una buena alimentación. La hidratación adecuada también contribuye al buen funcionamiento de sus órganos y a mantener un pelaje y piel saludables, especialmente en días calurosos o después de actividad física intensa.</p>
+        <img src="imagenes/nutricion3.jpg" alt="" style="margin-bottom: 2cm;">
+    
+    </div>
+
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>MASK!OTAS</h3>
+                    <p>Cuidando a tus mascotas con amor y profesionalismo desde 2024.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Horario</h4>
+                    <p>Lunes - Viernes: 9:00 - 20:00</p>
+                    <p>Sábados: 10:00 - 15:00</p>
+                    <p>Domingos: Emergencias</p>
+                </div>
+                <div class="footer-section">
+                    <h4 id="contacto">Contacto</h4>
+                    <p>📍 C/ dels Sants Just i Pastor, 70, 46940 Manises, València</p>
+                    <p>📞 +34 123 456 789</p>
+                    <p>✉️ info@MASK!OTAS.com</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Síguenos</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Información</h4>
+                    <div class="legal-links">
+                        <p><a href="#">Privacidad</a></p>
+                        <p><a href="#">Legal</a></p>
+                        <p><a href="#">Cookies</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function myFunction() {
+            var x = document.getElementById("menu-nav");
+            x.classList.toggle("responsive");
+        }
+    </script>
+</body>
+</html>
