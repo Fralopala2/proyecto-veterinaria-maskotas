@@ -97,6 +97,8 @@ nav {
 
 /* Cookies */
 
+/* Cookies */
+
 .cookie-popup {
     position: fixed;
     bottom: 20px;
@@ -108,10 +110,10 @@ nav {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 16px;
     z-index: 1000;
-    max-width: 400px;
+    max-width: 90%; /* establece el tamaño máximo de la ventana emergente de cookies */
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column; /* cambio columnas para que se vea mejor en el navegador */
+    align-items: center; /* centrado contenido vertical */
     font-family: Arial, sans-serif;
     font-size: 14px;
 }
@@ -123,6 +125,7 @@ nav {
 .cookie-popup a {
     color: #007BFF;
     text-decoration: underline;
+    font-size: 12px; /* añade un tamaño de fuente menor para el texto */
 }
 
 .cookie-button {
@@ -133,10 +136,29 @@ nav {
     padding: 8px 12px;
     cursor: pointer;
     font-size: 14px;
+    margin: 5px; /* añade margen para separar los botones */
 }
 
-.cookie-button:hover {
-    background-color: #00e7d0;
+.cookie-button:hover,
+.cookie-button:focus {
+    background-color: #00e7d0; /* color del hover */
+}
+
+@media (max-width: 768px) {
+    /* Establece el tamaño máximo de la ventana emergente de cookies en dispositivos móviles */
+    .cookie-popup {
+    max-width: 90%;
+    font-size: 12px;
+    }
+
+    .cookie-button {
+    font-size: 12px;
+    }
+
+    .cookie-button:hover,
+    .cookie-button:focus {
+    background-color: #00e7d0; /* color del hover */
+    }
 }
 
 /* Hero Section */
