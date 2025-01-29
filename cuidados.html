@@ -12,91 +12,6 @@
 </head>
 
 <style>
-/* Navegación */
-nav {
-    background-color: #009688;
-    color: white;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-}
-
-.nav-container {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 1rem 1.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo {
-    display: flex;
-    align-items: center;
-}
-
-.logo i {
-    font-size: 1.5rem;
-    margin-right: 0.5rem;
-}
-
-.logo span {
-    font-size: 1.15rem;
-    font-weight: bold;
-    color: white;
-}
-
-.nav-links {
-    display: flex;
-    gap: 1rem;
-    font-size: larger;
-    padding: 5px;
-    }
-
-.menu-icon .hamburguesa {
-    display: none;
-    font-size: 1.5rem;
-    color: white;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .nav-links {
-        display: none;
-        flex-direction: column;
-        background-color: #009688;
-        width: 100%;
-        position: absolute;
-        top: 60px;
-        left: 0;
-    }
-
-    .nav-links a {
-        text-align: center;
-        display: block;
-        color: white;
-        text-decoration: none;
-    }
-
-    .menu-icon .hamburguesa {
-        display: block;
-        cursor: pointer;
-    }
-
-    /* Mostrar el menú cuando tiene la clase 'responsive' */
-    .nav-links.responsive {
-        display: flex;
-    }
-}
-
-body {
-    font-family: Arial, sans-serif;
-    line-height: 1.3;
-    margin-top: 60px; /* Separar el contenido de la barra de navegación */
-}
-
 h1 {
     color: #009688;
     font-size: 2em;
@@ -116,27 +31,11 @@ p {
     font-size: 1em;
 }
 
-img {
+img.imagen-principal {
     border-radius: 0.5rem;
     height: auto;
     width: 100%;
     display: block;
-}
-
-.hero {
-    position: relative;
-    background-color: transparent;
-    color: white;
-    padding: 5rem 0;
-    text-align: center;
-    height: auto;
-    overflow: hidden;
-}
-
-.video-background video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
 }
 </style>
 
@@ -191,7 +90,7 @@ img {
         <p><strong>Exposición temprana:</strong> Los cachorros deben ser expuestos a diferentes personas, lugares y experiencias desde una edad temprana para que puedan adaptarse a su entorno. Esto les ayuda a evitar miedos o conductas agresivas en el futuro.</p>
         <p><strong>Entrenamiento en obediencia:</strong> Es recomendable enseñar comandos básicos como “sentado”, “quieto” y “ven”. Esto no solo facilita el manejo del perro, sino que también fortalece el vínculo con el dueño y promueve su seguridad.</p>
 
-        <img src="imagenes/dosperros.png" alt="">
+        <img class="imagen-principal" src="imagenes/dosperros.png" alt="Imagen de dos perros">
 
         <h2>2. Higiene</h2>
         <p>Mantener una buena higiene es esencial para evitar problemas de piel, infecciones y otros problemas de salud en tu perro.</p>
@@ -200,7 +99,7 @@ img {
         <p><strong>Higiene dental:</strong> La salud dental es vital para los perros, ya que la acumulación de placa puede causar enfermedades. Puedes cepillar sus dientes con productos adecuados para perros o darle snacks dentales que ayudan a mantenerlos limpios.</p>
         <p><strong>Corte de uñas:</strong> Las uñas demasiado largas pueden causar incomodidad e incluso deformaciones en las patas. La frecuencia del corte depende de cuánto desgaste natural tengan sus uñas al caminar.</p>
 
-        <img src="imagenes/higiene.png" alt="">
+        <img class="imagen-principal" src="imagenes/higiene.png" alt="Imagen de un perro siendo bañado">
 
         <h2>3. Salud y Atención Veterinaria</h2>
         <p>Para mantener a tu perro saludable, es importante que tenga visitas regulares al veterinario y que esté al día con sus vacunas y controles de salud.</p>
@@ -209,14 +108,14 @@ img {
         <p><strong>Chequeos regulares:</strong> Además de las vacunas, los chequeos anuales son esenciales para detectar cualquier problema de salud a tiempo.</p>
         <p><strong>Esterilización:</strong> La esterilización es una decisión importante que ayuda a prevenir enfermedades y reduce la cantidad de animales abandonados. Consulta con tu veterinario sobre el mejor momento para hacerlo.</p>
 
-        <img src="imagenes/veterinario.png" alt="">
+        <img class="imagen-principal" src="imagenes/veterinario.png" alt="Imagen de un perro en el veterinario">
 
         <h2>4. Cariño y Atención</h2>
         <p>Los perros necesitan sentirse parte de la familia y recibir amor y atención. Pasar tiempo de calidad con ellos, respetar su espacio y aprender a leer sus señales de comunicación es fundamental para que tengan una vida plena.</p>
         <p><strong>Vínculo emocional:</strong> Los perros son animales sociales que necesitan compañía. Asegúrate de pasar tiempo con ellos y darles afecto, lo que fortalece el vínculo entre tú y tu mascota.</p>
         <p><strong>Educación positiva:</strong> La disciplina es importante, pero siempre debe estar basada en el refuerzo positivo, como premios y elogios, para enseñarles buenos comportamientos de manera amable y efectiva.</p>
     
-        <img src="imagenes/atencion.png" alt="" style="margin-bottom: 2cm;">
+        <img class="imagen-principal" src="imagenes/atencion.png" alt="Imagen de un niño abrazando a un perro" style="margin-bottom: 2cm;">
     
     </div>
 

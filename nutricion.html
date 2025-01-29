@@ -13,90 +13,6 @@
 
 <style>
 /* Navegación */
-nav {
-    background-color: #009688;
-    color: white;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-}
-
-.nav-container {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 1rem 1.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo {
-    display: flex;
-    align-items: center;
-}
-
-.logo i {
-    font-size: 1.5rem;
-    margin-right: 0.5rem;
-}
-
-.logo span {
-    font-size: 1.15rem;
-    font-weight: bold;
-    color: white;
-}
-
-.nav-links {
-    display: flex;
-    gap: 1rem;
-    font-size: larger;
-    padding: 5px;
-    }
-
-.menu-icon .hamburguesa {
-    display: none;
-    font-size: 1.5rem;
-    color: white;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .nav-links {
-        display: none;
-        flex-direction: column;
-        background-color: #009688;
-        width: 100%;
-        position: absolute;
-        top: 60px;
-        left: 0;
-    }
-
-    .nav-links a {
-        text-align: center;
-        display: block;
-        color: white;
-        text-decoration: none;
-    }
-
-    .menu-icon .hamburguesa {
-        display: block;
-        cursor: pointer;
-    }
-
-    /* Mostrar el menú cuando tiene la clase 'responsive' */
-    .nav-links.responsive {
-        display: flex;
-    }
-}
-
-body {
-    font-family: Arial, sans-serif;
-    line-height: 1.3;
-    margin-top: 60px; /* Separar el contenido de la barra de navegación */
-}
-
 h1 {
     color: #009688;
     font-size: 2em;
@@ -116,28 +32,12 @@ p {
     font-size: 1em;
 }
 
-img {
+img.imagen-principal {
     border-radius: 0.5rem;
     height: auto;
     width: 100%;
     display: block;
     text-align: center;
-}
-
-.hero {
-    position: relative;
-    background-color: transparent;
-    color: white;
-    padding: 5rem 0;
-    text-align: center;
-    height: auto;
-    overflow: hidden;
-}
-
-.video-background video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
 }
 </style>
 
@@ -190,20 +90,20 @@ img {
         <h2>1. Alimentación balanceada:</h2>
         <p> Las mascotas necesitan una dieta equilibrada que incluya proteínas, carbohidratos, grasas, vitaminas y minerales en proporciones adecuadas según su especie, edad, tamaño y nivel de actividad. Un alimento balanceado previene deficiencias nutricionales y problemas de salud. Además, una dieta adaptada a sus necesidades individuales contribuye a mantener su energía y vitalidad a lo largo del día, evitando enfermedades relacionadas con la malnutrición y promoviendo su bienestar general.</p>
 
-        <img src="imagenes/nutricion.png" alt="">
+        <img class="imagen-principal" src="imagenes/nutricion.png" alt="">
 
         <h2>2. Calidad de los ingredientes:</h2>
         <p>Optar por alimentos de alta calidad ayuda a asegurar que la mascota reciba nutrientes digestibles y libres de aditivos perjudiciales. Leer las etiquetas y buscar alimentos con ingredientes naturales y proteínas de origen animal puede marcar la diferencia en su salud. Los ingredientes de calidad también facilitan la digestión, permiten una mejor absorción de nutrientes y son menos propensos a causar reacciones alérgicas u otros problemas derivados de aditivos artificiales.</p>
-        <img src="imagenes/nutricion1.jpg" alt="">
+        <img class="imagen-principal" src="imagenes/nutricion1.jpg" alt="">
 
         <h2>3. Control de porciones y horarios:</h2>
         La cantidad de alimento que una mascota necesita depende de su tamaño y actividad física. Controlar las porciones y establecer horarios regulares de alimentación previene problemas como la obesidad y el sobrepeso, que son comunes en mascotas. Mantener un horario regular también ayuda a la mascota a establecer rutinas saludables, mejorar su digestión y reducir el riesgo de problemas gastrointestinales.</p>
 
-        <img src="imagenes/nutricion2_2.jpg" alt="">
+        <img class="imagen-principal" src="imagenes/nutricion2_2.jpg" alt="">
 
         <h2>4. Hidratación:</h2>
         El agua es esencial para la salud de las mascotas, ya que ayuda en la digestión, la eliminación de toxinas y el equilibrio de temperatura corporal. Asegurarse de que tengan acceso a agua fresca en todo momento es tan importante como una buena alimentación. La hidratación adecuada también contribuye al buen funcionamiento de sus órganos y a mantener un pelaje y piel saludables, especialmente en días calurosos o después de actividad física intensa.</p>
-        <img src="imagenes/nutricion3.jpg" alt="" style="margin-bottom: 2cm;">
+        <img class="imagen-principal" src="imagenes/nutricion3.jpg" alt="" style="margin-bottom: 2cm;">
     
     </div>
 

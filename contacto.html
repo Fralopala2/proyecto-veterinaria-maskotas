@@ -11,101 +11,11 @@
     <script src="https://cdn.gtranslate.net/widgets/latest/flags.js" defer></script>
     <style>
         /* Estilos generales */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-        }
         .container {
             width: 90%;
             max-width: 1200px;
             margin: auto;
             padding: 20px;
-        }
-
-        /* Navegación */
-        nav {
-            background-color: #009688;
-            color: white;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-        }
-
-        .nav-container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 1rem 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-        }
-
-        .logo i {
-            font-size: 1.5rem;
-            margin-right: 0.5rem;
-        }
-
-        .logo span {
-            font-size: 1.15rem;
-            font-weight: bold;
-            color: white;
-        }
-
-        /* Estilos para enlaces de navegación */
-        .nav-links {
-        display: flex;
-        gap: 1rem;
-        font-size: larger;
-        padding: 5px;
-        }
-
-        .menu-icon .hamburguesa {
-            display: none;
-            font-size: 1.5rem;
-            color: white;
-        }
-
-        /* Mostrar menú hamburguesa en pantallas pequeñas */
-        @media screen and (max-width: 768px) {
-            .nav-links {
-                display: none;
-                flex-direction: column;
-                background-color: #009688;
-                width: 100%;
-                position: absolute;
-                top: 60px;
-                left: 0;
-                padding: 0.5rem;
-            }
-
-            .nav-links.responsive {
-                display: flex;
-            }
-
-            .menu-icon .hamburguesa {
-                display: block;
-            }
-        }
-
-        .nav-container a {
-            color: white;
-            text-decoration: none;
-            transition: color 0.3s;
-            text-align: center;            
-        }
-
-        .nav-container a:hover {
-            color: #bfdbfe;
-            background-color: #009688;
         }
 
         /* Formulario de contacto */
