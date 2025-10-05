@@ -187,20 +187,36 @@ async function loadCities() {
     const data = await fetchWithProxy(`http://54.167.110.190/api/get-cities.php?country=${countryCode}`);
     console.log("Ciudades recibidas:", data);
 
-    if (data.success) {
-      cities = data.cities;
-      citySelect.innerHTML = '<option value="">Selecciona una ciudad</option>';
-
-      cities.forEach((city) => {
-        const option = document.createElement("option");
-        option.value = city.ID;
-        option.textContent = city.Name;
-        citySelect.appendChild(option);
-      });
-
-      console.log(`${cities.length} ciudades cargadas para ${countryCode}`);
+    // La API puede devolver 'cities' o 'data' dependiendo del endpoint
+    const citiesArray = data.cities || data.data || [];
+    
+    if (data.success && Array.isArray(citiesArray)) {
+      cities = citiesArray;
+      
+      if (cities.length > 0) {
+        citySelect.innerHTML = '<option value="">Selecciona una ciudad</option>';
+        
+        cities.forEach((city) => {
+          // Manejar diferentes formatos de respuesta de la API
+          const cityId = city.ID || city.id;
+          const cityName = city.Name || city.city_name || city.name;
+          
+          if (city && cityId && cityName) {
+            const option = document.createElement("option");
+            option.value = cityId;
+            option.textContent = cityName;
+            citySelect.appendChild(option);
+          }
+        });
+        
+        console.log(`${cities.length} ciudades cargadas para ${countryCode}`);
+      } else {
+        // No hay ciudades para este país
+        citySelect.innerHTML = '<option value="999">Ciudad no especificada</option>';
+        console.log(`No se encontraron ciudades para ${countryCode}`);
+      }
     } else {
-      throw new Error(data.message || "Error en la respuesta del servidor");
+      throw new Error(data.message || `No se encontraron ciudades para ${countryCode}`);
     }
   } catch (error) {
     console.error("Error cargando ciudades:", error);
