@@ -3,74 +3,158 @@
 # Script para configurar SSL auto-firmado en EC2
 # Ejecutar como: sudo bash setup-ssl-ec2.sh
 
-echo "=== Configurando SSL auto-firmado en EC2 ==="
+echo "=== Configurando SSL auto-firmado en EC2 para MASK!OTAS ==="
 
 # Actualizar sistema
+echo "Actualizando sistema..."
 apt update
 
-# Instalar OpenSSL si no está instalado
-apt install -y openssl
+# Instalar Apache y OpenSSL si no están instalados
+echo "Instalando dependencias..."
+apt install -y apache2 openssl
 
 # Crear directorio para certificados
 mkdir -p /etc/ssl/private
 mkdir -p /etc/ssl/certs
 
 # Generar clave privada
-openssl genrsa -out /etc/ssl/private/apache-selfsigned.key 2048
+echo "Generando clave privada..."
+openssl genrsa -out /etc/ssl/private/maskotas-selfsigned.key 2048
 
 # Generar certificado auto-firmado (válido por 365 días)
-openssl req -new -x509 -key /etc/ssl/private/apache-selfsigned.key \
-    -out /etc/ssl/certs/apache-selfsigned.crt \
+echo "Generando certificado SSL..."
+openssl req -new -x509 -key /etc/ssl/private/maskotas-selfsigned.key \
+    -out /etc/ssl/certs/maskotas-selfsigned.crt \
     -days 365 \
-    -subj "/C=ES/ST=Valencia/L=Valencia/O=MASKOTAS/OU=IT/CN=54.167.110.190"
+    -subj "/C=ES/ST=Valencia/L=Valencia/O=MASKOTAS/OU=Veterinaria/CN=54.167.110.190"
 
 # Configurar Apache para SSL
-cat > /etc/apache2/sites-available/default-ssl.conf << 'EOF'
+echo "Configurando Apache SSL..."
+cat > /etc/apache2/sites-available/maskotas-ssl.conf << 'EOF'
 <IfModule mod_ssl.c>
     <VirtualHost _default_:443>
-        ServerAdmin webmaster@localhost
+        ServerAdmin info@maskotas.com
         DocumentRoot /var/www/html
+        ServerName 54.167.110.190
 
         # SSL Configuration
         SSLEngine on
-        SSLCertificateFile /etc/ssl/certs/apache-selfsigned.crt
-        SSLCertificateKeyFile /etc/ssl/private/apache-selfsigned.key
+        SSLCertificateFile /etc/ssl/certs/maskotas-selfsigned.crt
+        SSLCertificateKeyFile /etc/ssl/private/maskotas-selfsigned.key
 
-        # Headers para CORS
+        # Headers para CORS - IMPORTANTE para GitHub Pages
         Header always set Access-Control-Allow-Origin "*"
         Header always set Access-Control-Allow-Methods "GET, POST, OPTIONS, DELETE, PUT"
-        Header always set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
+        Header always set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With, Accept"
+        Header always set Access-Control-Allow-Credentials "false"
+
+        # Manejar preflight requests
+        RewriteEngine On
+        RewriteCond %{REQUEST_METHOD} OPTIONS
+        RewriteRule ^(.*)$ $1 [R=200,L]
 
         <Directory /var/www/html>
             Options Indexes FollowSymLinks
             AllowOverride All
             Require all granted
+            
+            # CORS adicional para archivos PHP
+            <FilesMatch "\.(php)$">
+                Header always set Access-Control-Allow-Origin "*"
+                Header always set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+                Header always set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
+            </FilesMatch>
         </Directory>
 
-        ErrorLog ${APACHE_LOG_DIR}/ssl_error.log
-        CustomLog ${APACHE_LOG_DIR}/ssl_access.log combined
+        # Logs específicos para SSL
+        ErrorLog ${APACHE_LOG_DIR}/maskotas_ssl_error.log
+        CustomLog ${APACHE_LOG_DIR}/maskotas_ssl_access.log combined
     </VirtualHost>
 </IfModule>
 EOF
 
+# También actualizar el sitio HTTP para CORS
+echo "Configurando CORS en HTTP..."
+cat > /etc/apache2/sites-available/000-default.conf << 'EOF'
+<VirtualHost *:80>
+    ServerAdmin info@maskotas.com
+    DocumentRoot /var/www/html
+    ServerName 54.167.110.190
+
+    # Headers para CORS
+    Header always set Access-Control-Allow-Origin "*"
+    Header always set Access-Control-Allow-Methods "GET, POST, OPTIONS, DELETE, PUT"
+    Header always set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With, Accept"
+    Header always set Access-Control-Allow-Credentials "false"
+
+    # Manejar preflight requests
+    RewriteEngine On
+    RewriteCond %{REQUEST_METHOD} OPTIONS
+    RewriteRule ^(.*)$ $1 [R=200,L]
+
+    <Directory /var/www/html>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+        
+        <FilesMatch "\.(php)$">
+            Header always set Access-Control-Allow-Origin "*"
+            Header always set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+            Header always set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
+        </FilesMatch>
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/maskotas_error.log
+    CustomLog ${APACHE_LOG_DIR}/maskotas_access.log combined
+</VirtualHost>
+EOF
+
 # Habilitar módulos necesarios
+echo "Habilitando módulos de Apache..."
 a2enmod ssl
 a2enmod headers
 a2enmod rewrite
 
-# Habilitar sitio SSL
-a2ensite default-ssl
+# Habilitar sitios
+echo "Habilitando sitios SSL..."
+a2ensite maskotas-ssl
+a2ensite 000-default
+
+# Verificar configuración
+echo "Verificando configuración de Apache..."
+apache2ctl configtest
 
 # Reiniciar Apache
+echo "Reiniciando Apache..."
 systemctl restart apache2
 
 # Verificar estado
-systemctl status apache2
+echo "Verificando estado de Apache..."
+systemctl status apache2 --no-pager
 
-echo "=== SSL configurado ==="
-echo "Tu API ahora está disponible en:"
-echo "HTTPS: https://54.167.110.190/api/get-countries.php"
-echo "HTTP:  http://54.167.110.190/api/get-countries.php"
+# Abrir puertos en el firewall si está activo
+echo "Configurando firewall..."
+if command -v ufw &> /dev/null; then
+    ufw allow 443/tcp
+    ufw allow 80/tcp
+    echo "Puertos 80 y 443 abiertos en UFW"
+fi
+
 echo ""
-echo "NOTA: Los navegadores mostrarán advertencia de certificado auto-firmado"
-echo "Los usuarios deberán hacer clic en 'Avanzado' > 'Continuar al sitio'"
+echo "=== ✅ SSL CONFIGURADO EXITOSAMENTE ==="
+echo ""
+echo "🌐 Tu API ahora está disponible en:"
+echo "   HTTPS: https://54.167.110.190/api/get-countries.php"
+echo "   HTTP:  http://54.167.110.190/api/get-countries.php"
+echo ""
+echo "🔒 IMPORTANTE:"
+echo "   - Los navegadores mostrarán advertencia de certificado auto-firmado"
+echo "   - Los usuarios deben hacer clic en 'Avanzado' > 'Continuar al sitio'"
+echo "   - Una vez aceptado, el registro funcionará desde GitHub Pages"
+echo ""
+echo "🧪 Para probar:"
+echo "   curl -k https://54.167.110.190/api/get-countries.php"
+echo ""
+echo "📋 Logs disponibles en:"
+echo "   - /var/log/apache2/maskotas_ssl_error.log"
+echo "   - /var/log/apache2/maskotas_ssl_access.log"

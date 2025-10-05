@@ -1039,4 +1039,23 @@ s para botones de autenticación en navbar */
 .mixed-content-warning i {
   color: #f39c12;
   margin-right: 5px;
+}/* Men
+saje informativo de demo */
+.demo-notice {
+  margin-top: 10px;
+  padding: 8px;
+  background-color: #e3f2fd;
+  border: 1px solid #bbdefb;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.demo-notice small {
+  color: #1976d2;
+  font-size: 0.85em;
+}
+
+.demo-notice i {
+  margin-right: 5px;
+  color: #2196f3;
 }
