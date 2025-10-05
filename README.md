@@ -22,6 +22,8 @@ MASK!OTAS es una clínica veterinaria moderna que ofrece servicios completos par
 - **Soporte multiidioma** (español/inglés)
 - **Sistema de cookies** con consentimiento RGPD
 
+- **URL**: https://fralopala2.github.io/proyecto-veterinaria-maskotas/
+
 ### 👥 Sistema de Autenticación y Registro
 
 - **Modales de registro e inicio de sesión** integrados en la navbar

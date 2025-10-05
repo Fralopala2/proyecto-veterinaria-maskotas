@@ -53,12 +53,54 @@ window.onclick = function (event) {
 // Cargar países desde la API
 async function loadCountries() {
   try {
-    const response = await fetch("http://54.167.110.190/api/get-countries.php");
-    const data = await response.json();
+    console.log("Iniciando carga de países...");
 
-    if (data.success) {
+    // Detectar si estamos en HTTPS (GitHub Pages) o HTTP (local)
+    const isHTTPS = window.location.protocol === "https:";
+    let apiURL;
+
+    if (isHTTPS) {
+      // Usar proxy CORS para GitHub Pages (sin dominio)
+      apiURL =
+        "https://api.allorigins.win/get?url=" +
+        encodeURIComponent("http://54.167.110.190/api/get-countries.php");
+    } else {
+      // URL directa para desarrollo local
+      apiURL = "http://54.167.110.190/api/get-countries.php";
+    }
+
+    console.log(`Usando URL: ${apiURL}`);
+
+    const response = await fetch(apiURL, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+
+    console.log("Respuesta recibida:", response.status, response.statusText);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    let data = await response.json();
+    console.log("Datos recibidos:", data);
+
+    // Si usamos proxy, extraer el contenido real
+    if (isHTTPS && data.contents) {
+      data = JSON.parse(data.contents);
+    }
+
+    if (data.success && data.countries) {
       countries = data.countries;
       const countrySelect = document.getElementById("registerCountry");
+
+      if (!countrySelect) {
+        throw new Error("No se encontró el elemento select de países");
+      }
+
       countrySelect.innerHTML = '<option value="">Selecciona un país</option>';
 
       countries.forEach((country) => {
@@ -67,10 +109,41 @@ async function loadCountries() {
         option.textContent = country.Name;
         countrySelect.appendChild(option);
       });
+
+      console.log(`${countries.length} países cargados exitosamente`);
+      showNotification("Países cargados correctamente", "success");
+    } else {
+      throw new Error(data.message || "No se recibieron países del servidor");
     }
   } catch (error) {
     console.error("Error cargando países:", error);
-    showNotification("Error al cargar países", "error");
+
+    // Mensaje específico para problema de Mixed Content
+    let errorMessage = error.message;
+    if (
+      error.message.includes("Failed to fetch") ||
+      error.message.includes("NetworkError")
+    ) {
+      errorMessage =
+        "Error de conexión: Posible problema de Mixed Content (HTTPS/HTTP). Verifica la configuración SSL del servidor.";
+    }
+
+    showNotification(`Error al cargar países: ${errorMessage}`, "error");
+
+    // Mostrar mensaje en el select también
+    const countrySelect = document.getElementById("registerCountry");
+    if (countrySelect) {
+      countrySelect.innerHTML =
+        '<option value="">Error: Verifica configuración SSL</option>';
+    }
+
+    // Mostrar advertencia de contenido mixto si estamos en HTTPS
+    if (window.location.protocol === "https:") {
+      const warning = document.getElementById("mixedContentWarning");
+      if (warning) {
+        warning.style.display = "block";
+      }
+    }
   }
 }
 
@@ -86,10 +159,44 @@ async function loadCities() {
   }
 
   try {
+    console.log(`Cargando ciudades para país: ${countryCode}`);
     citySelect.innerHTML = '<option value="">Cargando ciudades...</option>';
 
-    const response = await fetch(`http://54.167.110.190/api/get-cities.php?country=${countryCode}`);
-    const data = await response.json();
+    // Detectar protocolo y usar URL apropiada
+    const isHTTPS = window.location.protocol === "https:";
+    let apiURL;
+
+    if (isHTTPS) {
+      // Usar proxy CORS para GitHub Pages
+      apiURL =
+        "https://api.allorigins.win/get?url=" +
+        encodeURIComponent(
+          `http://54.167.110.190/api/get-cities.php?country=${countryCode}`
+        );
+    } else {
+      // URL directa para desarrollo local
+      apiURL = `http://54.167.110.190/api/get-cities.php?country=${countryCode}`;
+    }
+
+    const response = await fetch(apiURL, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    let data = await response.json();
+    console.log("Ciudades recibidas:", data);
+
+    // Si usamos proxy, extraer el contenido real
+    if (isHTTPS && data.contents) {
+      data = JSON.parse(data.contents);
+    }
 
     if (data.success) {
       cities = data.cities;
@@ -101,13 +208,25 @@ async function loadCities() {
         option.textContent = city.Name;
         citySelect.appendChild(option);
       });
+
+      console.log(`${cities.length} ciudades cargadas para ${countryCode}`);
     } else {
-      citySelect.innerHTML =
-        '<option value="">Error cargando ciudades</option>';
+      throw new Error(data.message || "Error en la respuesta del servidor");
     }
   } catch (error) {
     console.error("Error cargando ciudades:", error);
     citySelect.innerHTML = '<option value="">Error cargando ciudades</option>';
+
+    let errorMessage = error.message;
+    if (
+      error.message.includes("Failed to fetch") ||
+      error.message.includes("NetworkError")
+    ) {
+      errorMessage =
+        "Error de conexión: Verifica configuración SSL del servidor";
+    }
+
+    showNotification(`Error al cargar ciudades: ${errorMessage}`, "error");
   }
 }
 
@@ -144,7 +263,19 @@ document
         '<i class="fas fa-spinner fa-spin"></i> Creando cuenta...';
       submitBtn.disabled = true;
 
-      const response = await fetch("http://54.167.110.190/api/register-user.php", {
+      // Usar URL apropiada según el protocolo
+      const isHTTPS = window.location.protocol === "https:";
+      let apiURL;
+
+      if (isHTTPS) {
+        // Para POST con FormData, necesitamos un proxy diferente
+        apiURL =
+          "https://cors-anywhere.herokuapp.com/http://54.167.110.190/api/register-user.php";
+      } else {
+        apiURL = "http://54.167.110.190/api/register-user.php";
+      }
+
+      const response = await fetch(apiURL, {
         method: "POST",
         body: formData,
       });

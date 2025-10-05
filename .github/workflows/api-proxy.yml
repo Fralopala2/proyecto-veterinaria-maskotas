@@ -1,0 +1,25 @@
+name: API Proxy
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'  # Cada 5 minutos
+  workflow_dispatch:
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        
+      - name: Fetch Countries Data
+        run: |
+          curl -s "http://54.167.110.190/api/get-countries.php" > data/countries.json
+          
+      - name: Commit and Push
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add data/countries.json
+          git diff --staged --quiet || git commit -m "Update countries data"
+          git push

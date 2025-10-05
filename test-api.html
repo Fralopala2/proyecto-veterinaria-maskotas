@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test API - Países</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .result { margin: 10px 0; padding: 10px; border: 1px solid #ccc; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; }
+        button { padding: 10px 20px; margin: 5px; }
+        select { width: 200px; padding: 5px; margin: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Test de API - Carga de Países</h1>
+    
+    <button onclick="testRelativeURL()">Test URL Relativa</button>
+    <button onclick="testAbsoluteURL()">Test URL Absoluta</button>
+    <button onclick="clearResults()">Limpiar</button>
+    
+    <div id="results"></div>
+    
+    <h2>Selector de País (para probar)</h2>
+    <select id="countrySelect">
+        <option value="">Selecciona un país</option>
+    </select>
+    
+    <h2>Selector de Ciudad</h2>
+    <select id="citySelect" onchange="loadCities()">
+        <option value="">Primero selecciona un país</option>
+    </select>
+
+    <script>
+        function addResult(message, type = 'info') {
+            const results = document.getElementById('results');
+            const div = document.createElement('div');
+            div.className = `result ${type}`;
+            div.innerHTML = `<strong>${new Date().toLocaleTimeString()}</strong>: ${message}`;
+            results.appendChild(div);
+        }
+
+        function clearResults() {
+            document.getElementById('results').innerHTML = '';
+        }
+
+        async function testRelativeURL() {
+            addResult('Probando URL relativa: api/get-countries.php');
+            try {
+                const response = await fetch('api/get-countries.php');
+                addResult(`Status: ${response.status} ${response.statusText}`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                addResult(`Éxito: ${data.countries.length} países recibidos`, 'success');
+                
+                // Llenar el selector
+                fillCountrySelect(data.countries);
+                
+            } catch (error) {
+                addResult(`Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testAbsoluteURL() {
+            addResult('Probando URL absoluta: http://54.167.110.190/api/get-countries.php');
+            try {
+                const response = await fetch('http://54.167.110.190/api/get-countries.php');
+                addResult(`Status: ${response.status} ${response.statusText}`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                addResult(`Éxito: ${data.countries.length} países recibidos`, 'success');
+                
+                // Llenar el selector
+                fillCountrySelect(data.countries);
+                
+            } catch (error) {
+                addResult(`Error: ${error.message}`, 'error');
+            }
+        }
+
+        function fillCountrySelect(countries) {
+            const select = document.getElementById('countrySelect');
+            select.innerHTML = '<option value="">Selecciona un país</option>';
+            
+            countries.forEach(country => {
+                const option = document.createElement('option');
+                option.value = country.Code;
+                option.textContent = country.Name;
+                select.appendChild(option);
+            });
+        }
+
+        async function loadCities() {
+            const countryCode = document.getElementById('countrySelect').value;
+            const citySelect = document.getElementById('citySelect');
+            
+            if (!countryCode) {
+                citySelect.innerHTML = '<option value="">Primero selecciona un país</option>';
+                return;
+            }
+            
+            addResult(`Cargando ciudades para: ${countryCode}`);
+            citySelect.innerHTML = '<option value="">Cargando...</option>';
+            
+            try {
+                const response = await fetch(`api/get-cities.php?country=${countryCode}`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    citySelect.innerHTML = '<option value="">Selecciona una ciudad</option>';
+                    data.cities.forEach(city => {
+                        const option = document.createElement('option');
+                        option.value = city.ID;
+                        option.textContent = city.Name;
+                        citySelect.appendChild(option);
+                    });
+                    addResult(`${data.cities.length} ciudades cargadas`, 'success');
+                } else {
+                    throw new Error(data.message || 'Error del servidor');
+                }
+                
+            } catch (error) {
+                addResult(`Error cargando ciudades: ${error.message}`, 'error');
+                citySelect.innerHTML = '<option value="">Error cargando ciudades</option>';
+            }
+        }
+
+        // Cambiar el evento del selector de país
+        document.getElementById('countrySelect').addEventListener('change', loadCities);
+    </script>
+</body>
+</html>

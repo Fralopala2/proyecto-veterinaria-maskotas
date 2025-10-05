@@ -1025,3 +1025,18 @@ s para botones de autenticación en navbar */
     width: 100%;
   }
 }
+/* Advertencia de contenido mixto */
+.mixed-content-warning {
+  background-color: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 4px;
+  padding: 10px;
+  margin-top: 5px;
+  font-size: 0.9em;
+  color: #856404;
+}
+
+.mixed-content-warning i {
+  color: #f39c12;
+  margin-right: 5px;
+}
