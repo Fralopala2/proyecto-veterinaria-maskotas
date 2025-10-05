@@ -53,7 +53,7 @@ window.onclick = function (event) {
 // Cargar países desde la API
 async function loadCountries() {
   try {
-    const response = await fetch("http://54.167.110.190/api/get-countries.php");
+    const response = await fetch("https://54.167.110.190/api/get-countries.php");
     const data = await response.json();
 
     if (data.success) {
@@ -88,7 +88,7 @@ async function loadCities() {
   try {
     citySelect.innerHTML = '<option value="">Cargando ciudades...</option>';
 
-    const response = await fetch(`http://54.167.110.190/api/get-cities.php?country=${countryCode}`);
+    const response = await fetch(`https://54.167.110.190/api/get-cities.php?country=${countryCode}`);
     const data = await response.json();
 
     if (data.success) {
@@ -144,7 +144,7 @@ document
         '<i class="fas fa-spinner fa-spin"></i> Creando cuenta...';
       submitBtn.disabled = true;
 
-      const response = await fetch("http://54.167.110.190/api/register-user.php", {
+      const response = await fetch("https://54.167.110.190/api/register-user.php", {
         method: "POST",
         body: formData,
       });
