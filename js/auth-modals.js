@@ -170,6 +170,17 @@ async function loadCountries() {
   }
 }
 
+// Mapeo de códigos de país (algunos países usan códigos diferentes en diferentes APIs)
+const COUNTRY_CODE_MAP = {
+  'ES': 'ESP',  // España
+  'US': 'USA',  // Estados Unidos
+  'FR': 'FRA',  // Francia
+  'DE': 'DEU',  // Alemania
+  'IT': 'ITA',  // Italia
+  'GB': 'GBR',  // Reino Unido
+  'PT': 'PRT',  // Portugal
+};
+
 // Cargar ciudades basadas en el país seleccionado
 async function loadCities() {
   const countryCode = document.getElementById("registerCountry").value;
@@ -180,15 +191,25 @@ async function loadCities() {
     return;
   }
 
+  // Mapear código si es necesario
+  const mappedCountryCode = COUNTRY_CODE_MAP[countryCode] || countryCode;
+  console.log(`Código original: ${countryCode}, Código mapeado: ${mappedCountryCode}`);
+
   try {
-    console.log(`Cargando ciudades para país: ${countryCode}`);
+    console.log(`Cargando ciudades para país: ${countryCode} (mapeado: ${mappedCountryCode})`);
     citySelect.innerHTML = '<option value="">Cargando ciudades...</option>';
 
-    const data = await fetchWithProxy(`http://54.167.110.190/api/get-cities.php?country=${countryCode}`);
-    console.log("Ciudades recibidas:", data);
+    const apiUrl = `http://54.167.110.190/api/get-cities.php?country=${mappedCountryCode}`;
+    console.log(`URL de ciudades: ${apiUrl}`);
+    
+    const data = await fetchWithProxy(apiUrl);
+    console.log("Respuesta completa de ciudades:", JSON.stringify(data, null, 2));
 
     // La API puede devolver 'cities' o 'data' dependiendo del endpoint
     const citiesArray = data.cities || data.data || [];
+    console.log("Array de ciudades extraído:", citiesArray);
+    console.log("¿Es array?", Array.isArray(citiesArray));
+    console.log("Longitud:", citiesArray.length);
     
     if (data.success && Array.isArray(citiesArray)) {
       cities = citiesArray;
@@ -196,10 +217,12 @@ async function loadCities() {
       if (cities.length > 0) {
         citySelect.innerHTML = '<option value="">Selecciona una ciudad</option>';
         
-        cities.forEach((city) => {
+        cities.forEach((city, index) => {
           // Manejar diferentes formatos de respuesta de la API
           const cityId = city.ID || city.id;
           const cityName = city.Name || city.city_name || city.name;
+          
+          console.log(`Ciudad ${index}:`, { cityId, cityName, original: city });
           
           if (city && cityId && cityName) {
             const option = document.createElement("option");
@@ -209,22 +232,28 @@ async function loadCities() {
           }
         });
         
-        console.log(`${cities.length} ciudades cargadas para ${countryCode}`);
+        console.log(`${cities.length} ciudades cargadas para ${countryCode} (${mappedCountryCode})`);
+        showNotification(`${cities.length} ciudades cargadas`, "success");
       } else {
         // No hay ciudades para este país
         citySelect.innerHTML = '<option value="999">Ciudad no especificada</option>';
-        console.log(`No se encontraron ciudades para ${countryCode}`);
+        console.log(`No se encontraron ciudades para ${countryCode} (${mappedCountryCode})`);
+        showNotification(`No hay ciudades disponibles para ${countryCode}`, "warning");
       }
     } else {
-      throw new Error(data.message || `No se encontraron ciudades para ${countryCode}`);
+      console.error("Error en estructura de datos:", { success: data.success, isArray: Array.isArray(citiesArray) });
+      throw new Error(data.message || `No se encontraron ciudades para ${countryCode} (${mappedCountryCode})`);
     }
   } catch (error) {
-    console.error("Error cargando ciudades:", error);
+    console.error("Error cargando ciudades desde API:", error);
+    console.log("Intentando usar datos de respaldo...");
     
     // Usar datos de respaldo
     if (typeof loadFallbackCities === 'function') {
+      console.log("Función de respaldo encontrada, ejecutando...");
       loadFallbackCities(countryCode);
     } else {
+      console.log("No se encontró función de respaldo");
       citySelect.innerHTML = '<option value="">Error cargando ciudades</option>';
       showNotification(`Error al cargar ciudades: ${error.message}`, "error");
     }

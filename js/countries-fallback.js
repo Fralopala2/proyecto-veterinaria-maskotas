@@ -74,7 +74,7 @@ const FALLBACK_CITIES = {
 
 // Función para usar datos de respaldo
 function loadFallbackCountries() {
-  console.log("Usando datos de respaldo para países");
+  console.log("🔄 Usando datos de respaldo para países");
   
   countries = FALLBACK_COUNTRIES;
   const countrySelect = document.getElementById("registerCountry");
@@ -90,11 +90,13 @@ function loadFallbackCountries() {
     });
     
     showNotification("Países cargados (modo offline)", "warning");
+    console.log("✅ Datos de respaldo de países cargados");
   }
 }
 
 function loadFallbackCities(countryCode) {
-  console.log(`Usando datos de respaldo para ciudades de ${countryCode}`);
+  console.log(`🔄 Usando datos de respaldo para ciudades de ${countryCode}`);
+  console.log("Datos disponibles:", Object.keys(FALLBACK_CITIES));
   
   const citySelect = document.getElementById("registerCity");
   const countryCities = FALLBACK_CITIES[countryCode] || [];
@@ -109,8 +111,10 @@ function loadFallbackCities(countryCode) {
         option.textContent = city.Name;
         citySelect.appendChild(option);
       });
+      console.log(`✅ ${countryCities.length} ciudades de respaldo cargadas para ${countryCode}`);
     } else {
       citySelect.innerHTML = '<option value="999">Ciudad no especificada</option>';
+      console.log(`⚠️ No hay ciudades de respaldo para ${countryCode}`);
     }
   }
 }
