@@ -1,0 +1,43 @@
+# IDE and Editor files
+.vscode/
+.vscode
+*.code-workspace
+
+# AWS and Security files
+*.pem
+*.key
+Clave_lab.pem
+aws-setup/
+.aws/
+
+# Kiro AI files
+.kiro/
+
+# Database credentials and config
+**/DatabaseConnection.php
+config/database.php
+.env
+.env.local
+
+# Logs and temporary files
+*.log
+/logs/
+/tmp/
+node_modules/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Backup files
+*.bak
+*.backup
+*.sql.backup
+
+# Others
+plantilla.html

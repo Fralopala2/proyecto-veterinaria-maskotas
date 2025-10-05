@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Administrativo - MASK!OTAS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(45deg, #2c3e50, #3498db);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            background: #f8f9fa;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #3498db;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.1em;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .content-section {
+            padding: 30px;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .data-table th {
+            background: #34495e;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .data-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .data-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .refresh-btn {
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .refresh-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.4);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2em;
+            color: #666;
+        }
+
+        .error {
+            background: #e74c3c;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .timestamp {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+
+        .no-data {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🐾 MASK!OTAS Dashboard</h1>
+            <p>Panel de Análisis de Usuarios y Conexiones</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="totalUsers">-</div>
+                <div class="stat-label">Total Usuarios</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalCountries">-</div>
+                <div class="stat-label">Países</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalCities">-</div>
+                <div class="stat-label">Ciudades</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="recentUsers">-</div>
+                <div class="stat-label">Registros (7 días)</div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <button class="refresh-btn" onclick="loadDashboardData()">🔄 Actualizar Datos</button>
+            
+            <div id="loading" class="loading" style="display: none;">
+                Cargando datos del dashboard...
+            </div>
+            
+            <div id="error" class="error" style="display: none;"></div>
+
+            <div id="dashboardContent">
+                <!-- Content will be loaded here -->
+            </div>
+
+            <div id="timestamp" class="timestamp"></div>
+        </div>
+    </div>
+
+    <script>
+        async function loadDashboardData() {
+            const loading = document.getElementById('loading');
+            const error = document.getElementById('error');
+            const content = document.getElementById('dashboardContent');
+            
+            loading.style.display = 'block';
+            error.style.display = 'none';
+            content.innerHTML = '';
+
+            try {
+                const response = await fetch('/api/dashboard-data.php');
+                const result = await response.json();
+
+                if (!result.success) {
+                    throw new Error(result.error || 'Error desconocido');
+                }
+
+                const data = result.data;
+                
+                // Update stats
+                document.getElementById('totalUsers').textContent = data.totalUsers || 0;
+                document.getElementById('totalCountries').textContent = data.totalCountries || 0;
+                document.getElementById('totalCities').textContent = data.totalCities || 0;
+                document.getElementById('recentUsers').textContent = data.recentUsers?.length || 0;
+
+                // Build content sections
+                let html = '';
+
+                // Users by Country and City
+                html += '<h2 class="section-title">👥 Usuarios por País y Ciudad</h2>';
+                if (data.usersByCountryAndCity && data.usersByCountryAndCity.length > 0) {
+                    html += '<table class="data-table">';
+                    html += '<thead><tr><th>País</th><th>Ciudad</th><th>Usuarios</th></tr></thead><tbody>';
+                    data.usersByCountryAndCity.forEach(row => {
+                        html += `<tr><td>${row.country_name}</td><td>${row.city_name}</td><td>${row.user_count}</td></tr>`;
+                    });
+                    html += '</tbody></table>';
+                } else {
+                    html += '<div class="no-data">No hay datos disponibles</div>';
+                }
+
+                // Country with Most Users
+                html += '<h2 class="section-title">🏆 País con Más Usuarios</h2>';
+                if (data.countryWithMostUsers && data.countryWithMostUsers.length > 0) {
+                    const topCountry = data.countryWithMostUsers[0];
+                    html += `<div class="stat-card" style="max-width: 400px; margin: 0 auto;">`;
+                    html += `<div class="stat-number">${topCountry.user_count}</div>`;
+                    html += `<div class="stat-label">${topCountry.country_name}</div>`;
+                    html += `</div>`;
+                } else {
+                    html += '<div class="no-data">No hay datos disponibles</div>';
+                }
+
+                // Average Connection Time
+                html += '<h2 class="section-title">⏱️ Tiempo Promedio de Conexión por País</h2>';
+                if (data.averageConnectionTime && data.averageConnectionTime.length > 0) {
+                    html += '<table class="data-table">';
+                    html += '<thead><tr><th>País</th><th>Tiempo Promedio (minutos)</th></tr></thead><tbody>';
+                    data.averageConnectionTime.forEach(row => {
+                        const avgTime = row.avg_connection_minutes ? parseFloat(row.avg_connection_minutes).toFixed(2) : 'N/A';
+                        html += `<tr><td>${row.country_name}</td><td>${avgTime}</td></tr>`;
+                    });
+                    html += '</tbody></table>';
+                } else {
+                    html += '<div class="no-data">No hay datos de conexión disponibles</div>';
+                }
+
+                // Cities Concentrating 90% Users
+                html += '<h2 class="section-title">🏙️ Ciudades con 90% de Concentración</h2>';
+                if (data.citiesConcentrating90Percent && data.citiesConcentrating90Percent.length > 0) {
+                    html += '<table class="data-table">';
+                    html += '<thead><tr><th>País</th><th>Ciudad</th><th>% Concentración</th></tr></thead><tbody>';
+                    data.citiesConcentrating90Percent.forEach(row => {
+                        const percentage = row.concentration_percentage ? parseFloat(row.concentration_percentage).toFixed(2) : 'N/A';
+                        html += `<tr><td>${row.country_name}</td><td>${row.city_name}</td><td>${percentage}%</td></tr>`;
+                    });
+                    html += '</tbody></table>';
+                } else {
+                    html += '<div class="no-data">No hay ciudades que cumplan el criterio del 90%</div>';
+                }
+
+                // Recent Users
+                html += '<h2 class="section-title">🆕 Registros Recientes (Últimos 7 días)</h2>';
+                if (data.recentUsers && data.recentUsers.length > 0) {
+                    html += '<table class="data-table">';
+                    html += '<thead><tr><th>Usuario</th><th>Ciudad</th><th>País</th><th>Fecha de Registro</th></tr></thead><tbody>';
+                    data.recentUsers.forEach(row => {
+                        const date = new Date(row.registration_date).toLocaleDateString('es-ES');
+                        html += `<tr><td>${row.username}</td><td>${row.city_name}</td><td>${row.country_name}</td><td>${date}</td></tr>`;
+                    });
+                    html += '</tbody></table>';
+                } else {
+                    html += '<div class="no-data">No hay registros recientes</div>';
+                }
+
+                content.innerHTML = html;
+                document.getElementById('timestamp').textContent = `Última actualización: ${result.generated_at}`;
+
+            } catch (err) {
+                error.textContent = `Error al cargar los datos: ${err.message}`;
+                error.style.display = 'block';
+                console.error('Dashboard error:', err);
+            } finally {
+                loading.style.display = 'none';
+            }
+        }
+
+        // Load data when page loads
+        document.addEventListener('DOMContentLoaded', loadDashboardData);
+
+        // Auto-refresh every 5 minutes
+        setInterval(loadDashboardData, 300000);
+    </script>
+</body>
+</html>

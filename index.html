@@ -28,6 +28,14 @@
                 <a href="#suscribirse">Suscribete</a>
                 <a href="contacto.html">Contacto</a>
             </div>
+            <div class="auth-buttons">
+                <button class="auth-btn login-btn" onclick="openLoginModal()">
+                    <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                </button>
+                <button class="auth-btn register-btn" onclick="openRegisterModal()">
+                    <i class="fas fa-user-plus"></i> Registrarse
+                </button>
+            </div>
             <div class="menu-icon">
                 <a href="javascript:void(0);" class="hamburguesa" onclick="abrirMenuMovil()">
                 <i class="fa fa-bars"></i>
@@ -221,5 +229,116 @@
             </div>
         </div>
     </footer>
+
+    <!-- Modal de Login -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-sign-in-alt"></i> Iniciar Sesión</h2>
+                <span class="close" onclick="closeLoginModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="loginEmail">
+                            <i class="fas fa-envelope"></i> Correo Electrónico
+                        </label>
+                        <input type="email" id="loginEmail" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">
+                            <i class="fas fa-lock"></i> Contraseña
+                        </label>
+                        <input type="password" id="loginPassword" name="password" required>
+                    </div>
+                    <div class="form-options">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="rememberMe">
+                            <span class="checkmark"></span>
+                            Recordarme
+                        </label>
+                        <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
+                    </div>
+                    <button type="submit" class="modal-btn primary">
+                        <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                    </button>
+                </form>
+                <div class="modal-footer">
+                    <p>¿No tienes cuenta? <a href="#" onclick="switchToRegister()">Regístrate aquí</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Registro -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-user-plus"></i> Crear Cuenta</h2>
+                <span class="close" onclick="closeRegisterModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label for="registerUsername">
+                            <i class="fas fa-user"></i> Nombre de Usuario
+                        </label>
+                        <input type="text" id="registerUsername" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerEmail">
+                            <i class="fas fa-envelope"></i> Correo Electrónico
+                        </label>
+                        <input type="email" id="registerEmail" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerCountry">
+                            <i class="fas fa-globe"></i> País
+                        </label>
+                        <select id="registerCountry" name="country" required onchange="loadCities()">
+                            <option value="">Selecciona un país</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerCity">
+                            <i class="fas fa-map-marker-alt"></i> Ciudad
+                        </label>
+                        <select id="registerCity" name="city_id" required>
+                            <option value="">Primero selecciona un país</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPassword">
+                            <i class="fas fa-lock"></i> Contraseña
+                        </label>
+                        <input type="password" id="registerPassword" name="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">
+                            <i class="fas fa-lock"></i> Confirmar Contraseña
+                        </label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" required>
+                    </div>
+                    <div class="form-options">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="acceptTerms" required>
+                            <span class="checkmark"></span>
+                            Acepto los <a href="legal.html#legal" target="_blank">términos y condiciones</a>
+                        </label>
+                    </div>
+                    <button type="submit" class="modal-btn primary">
+                        <i class="fas fa-user-plus"></i> Crear Cuenta
+                    </button>
+                </form>
+                <div class="modal-footer">
+                    <p>¿Ya tienes cuenta? <a href="#" onclick="switchToLogin()">Inicia sesión aquí</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Incluir el script de tracking de conexiones -->
+    <script src="js/connection-tracker.js"></script>
+    <script src="js/auth-modals.js"></script>
 </body>
 </html>
