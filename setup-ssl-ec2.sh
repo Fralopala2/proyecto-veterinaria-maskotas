@@ -26,7 +26,7 @@ echo "Generando certificado SSL..."
 openssl req -new -x509 -key /etc/ssl/private/maskotas-selfsigned.key \
     -out /etc/ssl/certs/maskotas-selfsigned.crt \
     -days 365 \
-    -subj "/C=ES/ST=Valencia/L=Valencia/O=MASKOTAS/OU=Veterinaria/CN=54.167.110.190"
+    -subj "/C=ES/ST=Valencia/L=Valencia/O=MASKOTAS/OU=Veterinaria/CN=100.26.134.168"
 
 # Configurar Apache para SSL
 echo "Configurando Apache SSL..."
@@ -35,7 +35,7 @@ cat > /etc/apache2/sites-available/maskotas-ssl.conf << 'EOF'
     <VirtualHost _default_:443>
         ServerAdmin info@maskotas.com
         DocumentRoot /var/www/html
-        ServerName 54.167.110.190
+        ServerName 100.26.134.168
 
         # SSL Configuration
         SSLEngine on
@@ -79,7 +79,7 @@ cat > /etc/apache2/sites-available/000-default.conf << 'EOF'
 <VirtualHost *:80>
     ServerAdmin info@maskotas.com
     DocumentRoot /var/www/html
-    ServerName 54.167.110.190
+    ServerName 100.26.134.168
 
     # Headers para CORS
     Header always set Access-Control-Allow-Origin "*"
@@ -144,8 +144,8 @@ echo ""
 echo "=== ✅ SSL CONFIGURADO EXITOSAMENTE ==="
 echo ""
 echo "🌐 Tu API ahora está disponible en:"
-echo "   HTTPS: https://54.167.110.190/api/get-countries.php"
-echo "   HTTP:  http://54.167.110.190/api/get-countries.php"
+echo "   HTTPS: https://100.26.134.168/api/get-countries.php"
+echo "   HTTP:  http://100.26.134.168/api/get-countries.php"
 echo ""
 echo "🔒 IMPORTANTE:"
 echo "   - Los navegadores mostrarán advertencia de certificado auto-firmado"
@@ -153,7 +153,7 @@ echo "   - Los usuarios deben hacer clic en 'Avanzado' > 'Continuar al sitio'"
 echo "   - Una vez aceptado, el registro funcionará desde GitHub Pages"
 echo ""
 echo "🧪 Para probar:"
-echo "   curl -k https://54.167.110.190/api/get-countries.php"
+echo "   curl -k https://100.26.134.168/api/get-countries.php"
 echo ""
 echo "📋 Logs disponibles en:"
 echo "   - /var/log/apache2/maskotas_ssl_error.log"

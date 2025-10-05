@@ -120,7 +120,7 @@ async function loadCountries() {
     try {
       console.log("Intentando cargar países con HTTPS...");
       const httpsResponse = await fetch(
-        "https://54.167.110.190/api/get-countries.php"
+        "https://100.26.134.168/api/get-countries.php"
       );
       if (httpsResponse.ok) {
         data = await httpsResponse.json();
@@ -131,7 +131,7 @@ async function loadCountries() {
     } catch (httpsError) {
       console.log("HTTPS falló, usando proxy:", httpsError.message);
       data = await fetchWithProxy(
-        "http://54.167.110.190/api/get-countries.php"
+        "http://100.26.134.168/api/get-countries.php"
       );
     }
     console.log("Datos recibidos:", data);
@@ -226,7 +226,7 @@ async function loadCities() {
     // Intentar HTTPS primero, luego HTTP con proxy
     let data;
     try {
-      const httpsUrl = `https://54.167.110.190/api/get-cities.php?country=${mappedCountryCode}`;
+      const httpsUrl = `https://100.26.134.168/api/get-cities.php?country=${mappedCountryCode}`;
       console.log("Intentando cargar ciudades con HTTPS:", httpsUrl);
 
       const httpsResponse = await fetch(httpsUrl);
@@ -238,7 +238,7 @@ async function loadCities() {
       }
     } catch (httpsError) {
       console.log("HTTPS falló, usando proxy:", httpsError.message);
-      const apiUrl = `http://54.167.110.190/api/get-cities.php?country=${mappedCountryCode}`;
+      const apiUrl = `http://100.26.134.168/api/get-cities.php?country=${mappedCountryCode}`;
       data = await fetchWithProxy(apiUrl);
     }
     console.log(
@@ -371,7 +371,7 @@ document
         try {
           console.log("Estrategia 1: Intentando HTTPS...");
           const httpsResponse = await fetch(
-            "https://54.167.110.190/api/register-user.php",
+            "https://100.26.134.168/api/register-user.php",
             {
               method: "POST",
               body: formData,
@@ -391,7 +391,7 @@ document
 
           try {
             const directResponse = await fetch(
-              "http://54.167.110.190/api/register-user.php",
+              "http://100.26.134.168/api/register-user.php",
               {
                 method: "POST",
                 body: formData,
@@ -424,7 +424,7 @@ document
               const proxyResponse = await fetch(
                 "https://api.allorigins.win/raw?url=" +
                   encodeURIComponent(
-                    "http://54.167.110.190/api/register-user.php"
+                    "http://100.26.134.168/api/register-user.php"
                   ),
                 {
                   method: "POST",
@@ -474,7 +474,7 @@ document
         // En HTTP local, usar directamente
         console.log("Modo local - usando conexión directa...");
         const response = await fetch(
-          "http://54.167.110.190/api/register-user.php",
+          "http://100.26.134.168/api/register-user.php",
           {
             method: "POST",
             body: formData,
