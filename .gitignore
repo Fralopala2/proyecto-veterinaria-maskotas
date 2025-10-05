@@ -2,6 +2,7 @@
 .vscode/
 .vscode
 *.code-workspace
+.github/
 
 # AWS and Security files
 *.pem

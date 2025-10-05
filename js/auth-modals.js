@@ -50,52 +50,75 @@ window.onclick = function (event) {
   }
 };
 
+// Lista de proxies CORS para intentar
+const CORS_PROXIES = [
+  'https://api.allorigins.win/get?url=',
+  'https://corsproxy.io/?',
+  'https://api.codetabs.com/v1/proxy?quest='
+];
+
+// Función para intentar cargar datos con múltiples proxies
+async function fetchWithProxy(url) {
+  const isHTTPS = window.location.protocol === "https:";
+  
+  if (!isHTTPS) {
+    // Si estamos en HTTP (local), usar URL directa
+    const response = await fetch(url);
+    return await response.json();
+  }
+
+  // Si estamos en HTTPS, intentar con proxies
+  for (let i = 0; i < CORS_PROXIES.length; i++) {
+    const proxy = CORS_PROXIES[i];
+    try {
+      console.log(`Intentando proxy ${i + 1}/${CORS_PROXIES.length}: ${proxy}`);
+      
+      const proxyURL = proxy + encodeURIComponent(url);
+      const response = await fetch(proxyURL);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+      
+      let data = await response.json();
+      
+      // Extraer contenido según el tipo de proxy
+      if (data.contents) {
+        // allorigins.win format
+        data = JSON.parse(data.contents);
+      } else if (data.body) {
+        // Algunos proxies usan 'body'
+        data = JSON.parse(data.body);
+      }
+      
+      console.log(`Éxito con proxy ${i + 1}`);
+      return data;
+      
+    } catch (error) {
+      console.log(`Proxy ${i + 1} falló:`, error.message);
+      if (i === CORS_PROXIES.length - 1) {
+        throw new Error(`Todos los proxies fallaron. Último error: ${error.message}`);
+      }
+    }
+  }
+}
+
 // Cargar países desde la API
 async function loadCountries() {
+  const countrySelect = document.getElementById("registerCountry");
+  
   try {
     console.log("Iniciando carga de países...");
-
-    // Detectar si estamos en HTTPS (GitHub Pages) o HTTP (local)
-    const isHTTPS = window.location.protocol === "https:";
-    let apiURL;
-
-    if (isHTTPS) {
-      // Usar proxy CORS para GitHub Pages (sin dominio)
-      apiURL =
-        "https://api.allorigins.win/get?url=" +
-        encodeURIComponent("http://54.167.110.190/api/get-countries.php");
-    } else {
-      // URL directa para desarrollo local
-      apiURL = "http://54.167.110.190/api/get-countries.php";
+    
+    if (countrySelect) {
+      countrySelect.innerHTML = '<option value="">Cargando países...</option>';
     }
 
-    console.log(`Usando URL: ${apiURL}`);
-
-    const response = await fetch(apiURL, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    });
-
-    console.log("Respuesta recibida:", response.status, response.statusText);
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    let data = await response.json();
+    const data = await fetchWithProxy("http://54.167.110.190/api/get-countries.php");
     console.log("Datos recibidos:", data);
-
-    // Si usamos proxy, extraer el contenido real
-    if (isHTTPS && data.contents) {
-      data = JSON.parse(data.contents);
-    }
 
     if (data.success && data.countries) {
       countries = data.countries;
-      const countrySelect = document.getElementById("registerCountry");
 
       if (!countrySelect) {
         throw new Error("No se encontró el elemento select de países");
@@ -112,36 +135,36 @@ async function loadCountries() {
 
       console.log(`${countries.length} países cargados exitosamente`);
       showNotification("Países cargados correctamente", "success");
+      
+      // Ocultar advertencia si existe
+      const warning = document.getElementById("mixedContentWarning");
+      if (warning) {
+        warning.style.display = "none";
+      }
+      
     } else {
       throw new Error(data.message || "No se recibieron países del servidor");
     }
   } catch (error) {
     console.error("Error cargando países:", error);
-
-    // Mensaje específico para problema de Mixed Content
-    let errorMessage = error.message;
-    if (
-      error.message.includes("Failed to fetch") ||
-      error.message.includes("NetworkError")
-    ) {
-      errorMessage =
-        "Error de conexión: Posible problema de Mixed Content (HTTPS/HTTP). Verifica la configuración SSL del servidor.";
-    }
-
-    showNotification(`Error al cargar países: ${errorMessage}`, "error");
+    showNotification(`Error al cargar países: ${error.message}`, "error");
 
     // Mostrar mensaje en el select también
-    const countrySelect = document.getElementById("registerCountry");
     if (countrySelect) {
-      countrySelect.innerHTML =
-        '<option value="">Error: Verifica configuración SSL</option>';
+      countrySelect.innerHTML = '<option value="">Error cargando países</option>';
     }
 
-    // Mostrar advertencia de contenido mixto si estamos en HTTPS
-    if (window.location.protocol === "https:") {
-      const warning = document.getElementById("mixedContentWarning");
-      if (warning) {
-        warning.style.display = "block";
+    // Usar datos de respaldo como último recurso
+    console.log("Intentando cargar datos de respaldo...");
+    if (typeof loadFallbackCountries === 'function') {
+      loadFallbackCountries();
+    } else {
+      // Mostrar advertencia de contenido mixto si estamos en HTTPS
+      if (window.location.protocol === "https:") {
+        const warning = document.getElementById("mixedContentWarning");
+        if (warning) {
+          warning.style.display = "block";
+        }
       }
     }
   }
@@ -153,8 +176,7 @@ async function loadCities() {
   const citySelect = document.getElementById("registerCity");
 
   if (!countryCode) {
-    citySelect.innerHTML =
-      '<option value="">Primero selecciona un país</option>';
+    citySelect.innerHTML = '<option value="">Primero selecciona un país</option>';
     return;
   }
 
@@ -162,41 +184,8 @@ async function loadCities() {
     console.log(`Cargando ciudades para país: ${countryCode}`);
     citySelect.innerHTML = '<option value="">Cargando ciudades...</option>';
 
-    // Detectar protocolo y usar URL apropiada
-    const isHTTPS = window.location.protocol === "https:";
-    let apiURL;
-
-    if (isHTTPS) {
-      // Usar proxy CORS para GitHub Pages
-      apiURL =
-        "https://api.allorigins.win/get?url=" +
-        encodeURIComponent(
-          `http://54.167.110.190/api/get-cities.php?country=${countryCode}`
-        );
-    } else {
-      // URL directa para desarrollo local
-      apiURL = `http://54.167.110.190/api/get-cities.php?country=${countryCode}`;
-    }
-
-    const response = await fetch(apiURL, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    let data = await response.json();
+    const data = await fetchWithProxy(`http://54.167.110.190/api/get-cities.php?country=${countryCode}`);
     console.log("Ciudades recibidas:", data);
-
-    // Si usamos proxy, extraer el contenido real
-    if (isHTTPS && data.contents) {
-      data = JSON.parse(data.contents);
-    }
 
     if (data.success) {
       cities = data.cities;
@@ -215,18 +204,14 @@ async function loadCities() {
     }
   } catch (error) {
     console.error("Error cargando ciudades:", error);
-    citySelect.innerHTML = '<option value="">Error cargando ciudades</option>';
-
-    let errorMessage = error.message;
-    if (
-      error.message.includes("Failed to fetch") ||
-      error.message.includes("NetworkError")
-    ) {
-      errorMessage =
-        "Error de conexión: Verifica configuración SSL del servidor";
+    
+    // Usar datos de respaldo
+    if (typeof loadFallbackCities === 'function') {
+      loadFallbackCities(countryCode);
+    } else {
+      citySelect.innerHTML = '<option value="">Error cargando ciudades</option>';
+      showNotification(`Error al cargar ciudades: ${error.message}`, "error");
     }
-
-    showNotification(`Error al cargar ciudades: ${errorMessage}`, "error");
   }
 }
 
