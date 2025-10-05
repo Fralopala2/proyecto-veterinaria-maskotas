@@ -220,7 +220,7 @@
             content.innerHTML = '';
 
             try {
-                const response = await fetch('/api/dashboard-data.php');
+                const response = await fetch('/api/dashboard-data-simple.php');
                 const result = await response.json();
 
                 if (!result.success) {
