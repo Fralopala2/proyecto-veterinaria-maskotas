@@ -4,6 +4,19 @@
 let countries = [];
 let cities = [];
 
+// Configuración de API
+const API_CONFIG = {
+  SERVER_IP: '107.21.199.133',
+  getApiUrl: function(endpoint) {
+    const isGitHubPages = window.location.hostname === 'fralopala2.github.io';
+    const isHTTPS = window.location.protocol === 'https:';
+    
+    // Si estamos en GitHub Pages o HTTPS, intentar HTTPS primero
+    const protocol = (isGitHubPages || isHTTPS) ? 'https:' : 'http:';
+    return `${protocol}//${this.SERVER_IP}${endpoint}`;
+  }
+};
+
 // Funciones para abrir/cerrar modales
 function openLoginModal() {
   document.getElementById("loginModal").style.display = "block";
@@ -120,7 +133,7 @@ async function loadCountries() {
     try {
       console.log("Intentando cargar países con HTTPS...");
       const httpsResponse = await fetch(
-        "https://100.26.134.168/api/get-countries.php"
+        "https://107.21.199.133/api/get-countries.php"
       );
       if (httpsResponse.ok) {
         data = await httpsResponse.json();
@@ -131,7 +144,7 @@ async function loadCountries() {
     } catch (httpsError) {
       console.log("HTTPS falló, usando proxy:", httpsError.message);
       data = await fetchWithProxy(
-        "http://100.26.134.168/api/get-countries.php"
+        "http://107.21.199.133/api/get-countries.php"
       );
     }
     console.log("Datos recibidos:", data);
@@ -226,20 +239,20 @@ async function loadCities() {
     // Intentar HTTPS primero, luego HTTP con proxy
     let data;
     try {
-      const httpsUrl = `https://100.26.134.168/api/get-cities.php?country=${mappedCountryCode}`;
-      console.log("Intentando cargar ciudades con HTTPS:", httpsUrl);
+      const apiUrl = API_CONFIG.getApiUrl(`/api/get-cities.php?country=${mappedCountryCode}`);
+      console.log("Cargando ciudades desde:", apiUrl);
 
-      const httpsResponse = await fetch(httpsUrl);
-      if (httpsResponse.ok) {
-        data = await httpsResponse.json();
-        console.log("✅ Ciudades cargadas con HTTPS directo");
+      const response = await fetch(apiUrl, { mode: 'cors' });
+      if (response.ok) {
+        data = await response.json();
+        console.log("✅ Ciudades cargadas exitosamente");
       } else {
-        throw new Error("HTTPS no disponible");
+        throw new Error("Error en la respuesta del servidor");
       }
-    } catch (httpsError) {
-      console.log("HTTPS falló, usando proxy:", httpsError.message);
-      const apiUrl = `http://100.26.134.168/api/get-cities.php?country=${mappedCountryCode}`;
-      data = await fetchWithProxy(apiUrl);
+    } catch (error) {
+      console.log("Error directo, usando proxy:", error.message);
+      const fallbackUrl = API_CONFIG.getApiUrl(`/api/get-cities.php?country=${mappedCountryCode}`).replace('https:', 'http:');
+      data = await fetchWithProxy(fallbackUrl);
     }
     console.log(
       "Respuesta completa de ciudades:",
@@ -371,7 +384,7 @@ document
         try {
           console.log("Estrategia 1: Intentando HTTPS...");
           const httpsResponse = await fetch(
-            "https://100.26.134.168/api/register-user.php",
+            "https://107.21.199.133/api/register-user.php",
             {
               method: "POST",
               body: formData,
@@ -391,7 +404,7 @@ document
 
           try {
             const directResponse = await fetch(
-              "http://100.26.134.168/api/register-user.php",
+              "http://107.21.199.133/api/register-user.php",
               {
                 method: "POST",
                 body: formData,
@@ -424,7 +437,7 @@ document
               const proxyResponse = await fetch(
                 "https://api.allorigins.win/raw?url=" +
                   encodeURIComponent(
-                    "http://100.26.134.168/api/register-user.php"
+                    "http://107.21.199.133/api/register-user.php"
                   ),
                 {
                   method: "POST",
@@ -474,7 +487,7 @@ document
         // En HTTP local, usar directamente
         console.log("Modo local - usando conexión directa...");
         const response = await fetch(
-          "http://100.26.134.168/api/register-user.php",
+          "http://107.21.199.133/api/register-user.php",
           {
             method: "POST",
             body: formData,
@@ -528,16 +541,66 @@ document
     }
   });
 
-// Manejar el formulario de login (placeholder - necesitarías implementar la API)
+// Manejar el formulario de login
 document
   .getElementById("loginForm")
   .addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    // Por ahora solo mostrar mensaje
-    showNotification("Función de login en desarrollo", "info");
+    const email = document.getElementById("loginEmail").value;
+    const password = document.getElementById("loginPassword").value;
 
-    // Aquí implementarías la lógica de login cuando tengas la API correspondiente
+    if (!email || !password) {
+      showNotification("Por favor completa todos los campos", "error");
+      return;
+    }
+
+    try {
+      // Mostrar loading
+      const submitBtn = document.querySelector("#loginForm button[type='submit']");
+      const originalText = submitBtn.innerHTML;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Iniciando sesión...';
+      submitBtn.disabled = true;
+
+      // Intentar login
+      const formData = new FormData();
+      formData.append('email', email);
+      formData.append('password', password);
+
+      // Obtener URL de API según el entorno
+      const apiUrl = API_CONFIG.getApiUrl('/api/login-user.php');
+
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        body: formData,
+        mode: 'cors'
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        // Guardar datos del usuario en localStorage
+        localStorage.setItem('currentUser', JSON.stringify(result.user));
+        
+        showNotification("¡Bienvenido " + result.user.username + "!", "success");
+        closeLoginModal();
+        
+        // Actualizar interfaz para mostrar usuario logueado
+        updateUIForLoggedUser(result.user);
+        
+      } else {
+        throw new Error(result.message);
+      }
+
+    } catch (error) {
+      console.error('Error en login:', error);
+      showNotification("Error: " + error.message, "error");
+    } finally {
+      // Restaurar botón
+      const submitBtn = document.querySelector("#loginForm button[type='submit']");
+      submitBtn.innerHTML = originalText;
+      submitBtn.disabled = false;
+    }
   });
 
 // Función para mostrar notificaciones
@@ -578,6 +641,57 @@ function getNotificationIcon(type) {
       return "fa-info-circle";
   }
 }
+
+// Función para actualizar la interfaz cuando el usuario está logueado
+function updateUIForLoggedUser(user) {
+  const authButtons = document.querySelector('.auth-buttons');
+  if (authButtons) {
+    authButtons.innerHTML = `
+      <div class="user-info">
+        <span class="welcome-text">¡Hola, ${user.username}!</span>
+        <button class="auth-btn logout-btn" onclick="logout()">
+          <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+        </button>
+      </div>
+    `;
+  }
+}
+
+// Función para cerrar sesión
+function logout() {
+  localStorage.removeItem('currentUser');
+  showNotification("Sesión cerrada correctamente", "info");
+  
+  // Restaurar botones originales
+  const authButtons = document.querySelector('.auth-buttons');
+  if (authButtons) {
+    authButtons.innerHTML = `
+      <button class="auth-btn login-btn" onclick="openLoginModal()">
+        <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+      </button>
+      <button class="auth-btn register-btn" onclick="openRegisterModal()">
+        <i class="fas fa-user-plus"></i> Registrarse
+      </button>
+    `;
+  }
+}
+
+// Verificar si hay usuario logueado al cargar la página
+function checkLoggedUser() {
+  const currentUser = localStorage.getItem('currentUser');
+  if (currentUser) {
+    try {
+      const user = JSON.parse(currentUser);
+      updateUIForLoggedUser(user);
+    } catch (e) {
+      console.error('Error parsing user data:', e);
+      localStorage.removeItem('currentUser');
+    }
+  }
+}
+
+// Ejecutar al cargar la página
+document.addEventListener('DOMContentLoaded', checkLoggedUser);
 
 // Función de utilidad para desarrolladores - ver registros pendientes
 function showPendingRegistrations() {

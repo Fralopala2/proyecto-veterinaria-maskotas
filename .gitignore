@@ -20,6 +20,35 @@ config/database.php
 .env
 .env.local
 
+# Test files and temporary development files
+test-*.html
+*test*.html
+cors-test.*
+debug-*.php
+*-test.*
+*-prueba.*
+*.temp
+*.tmp
+
+# Documentation files (keep only essential ones)
+*SOLUTION*.md
+*SOLUCION*.md
+IP-UPDATE-README.md
+GITHUB-PAGES-SOLUTION.md
+LIMPIEZA-*.md
+
+# SSL and configuration temp files
+ssl-*.conf
+*.crt
+*.csr
+
+# PowerShell temp and old versions
+setup-https.ps1
+setup-https-*.ps1
+deploy-to-ec2.ps1
+*-old.ps1
+*-backup.ps1
+
 # Logs and temporary files
 *.log
 /logs/
@@ -42,3 +71,7 @@ Thumbs.db
 
 # Others
 plantilla.html
+
+# User-specific test data
+create-test-user.sql
+*-mock.php
