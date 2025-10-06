@@ -1,8 +1,19 @@
 <?php
+// Handle preflight OPTIONS request first
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    header('Access-Control-Allow-Origin: https://fralopala2.github.io');
+    header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+    header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
+    header('Access-Control-Allow-Credentials: true');
+    http_response_code(200);
+    exit();
+}
+
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST');
-header('Access-Control-Allow-Headers: Content-Type');
+header('Access-Control-Allow-Origin: https://fralopala2.github.io');
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
+header('Access-Control-Allow-Credentials: true');
 
 // Incluir la clase de conexión a la base de datos
 require_once '../includes/DatabaseConnection.php';
@@ -68,11 +79,13 @@ try {
         throw new Exception('Ciudad no válida');
     }
     
-    // La tabla users no tiene campo password, es solo para tracking
-    // Insertar nuevo usuario
-    $insertQuery = "INSERT INTO users (username, email, city_id, registration_date, connection_start) VALUES (?, ?, ?, NOW(), NOW())";
+    // Hash de la contraseña
+    $password_hash = password_hash($password, PASSWORD_DEFAULT);
+    
+    // Insertar nuevo usuario con contraseña hasheada
+    $insertQuery = "INSERT INTO users (username, email, password_hash, city_id, registration_date, connection_start) VALUES (?, ?, ?, ?, NOW(), NOW())";
     $insertStmt = $connection->prepare($insertQuery);
-    $insertStmt->bind_param('ssi', $username, $email, $city_id);
+    $insertStmt->bind_param('sssi', $username, $email, $password_hash, $city_id);
     
     if ($insertStmt->execute()) {
         $userId = $connection->insert_id;
