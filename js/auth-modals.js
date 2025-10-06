@@ -353,88 +353,26 @@ document
             throw new Error(`HTTPS error: ${httpsResponse.status}`);
           }
         } catch (httpsError) {
-          console.log("HTTPS falló, intentando HTTP:", httpsError.message);
-
-          try {
-            const directResponse = await fetch(
-              "http://107.21.199.133/api/register-user.php",
-              {
-                method: "POST",
-                body: formData,
-                mode: "cors",
-              }
+          console.log("HTTPS falló:", httpsError.message);
+          
+          // Mensaje específico para GitHub Pages
+          const isGitHubPages = window.location.hostname.includes('github.io');
+          
+          if (isGitHubPages) {
+            throw new Error(
+              "🔒 Para registrarte desde GitHub Pages, necesitas permitir el certificado SSL:\n\n" +
+              "📋 PASOS SIMPLES:\n" +
+              "1️⃣ Abre una nueva pestaña\n" +
+              "2️⃣ Ve a: https://107.21.199.133/\n" +
+              "3️⃣ Acepta el certificado de seguridad\n" +
+              "4️⃣ Vuelve aquí e intenta registrarte de nuevo\n\n" +
+              "💡 El sitio web funciona completamente sin registro."
             );
-
-            if (directResponse.ok) {
-              result = await directResponse.json();
-              registrationSuccess = true;
-              console.log("✅ Éxito con fetch directo");
-            } else {
-              throw new Error(`HTTP ${directResponse.status}`);
-            }
-          } catch (directError) {
-            console.log("❌ Fetch directo falló:", directError.message);
-
-            // Estrategia 2: Usar proxy con URLSearchParams
-            try {
-              console.log("Estrategia 2: Usando proxy CORS...");
-
-              // Convertir FormData a URLSearchParams
-              const params = new URLSearchParams();
-              for (const [key, value] of formData.entries()) {
-                params.append(key, value);
-              }
-
-              console.log("Parámetros a enviar:", params.toString());
-
-              const proxyResponse = await fetch(
-                "https://api.allorigins.win/raw?url=" +
-                  encodeURIComponent(
-                    "http://107.21.199.133/api/register-user.php"
-                  ),
-                {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                    "X-Requested-With": "XMLHttpRequest"
-                  },
-                  body: params.toString(),
-                }
-              );
-
-              console.log(
-                "Respuesta del proxy:",
-                proxyResponse.status,
-                proxyResponse.statusText
-              );
-
-              if (proxyResponse.ok) {
-                const responseText = await proxyResponse.text();
-                console.log("Texto de respuesta:", responseText);
-
-                // Intentar parsear como JSON
-                try {
-                  result = JSON.parse(responseText);
-                  registrationSuccess = true;
-                  console.log("✅ Éxito con proxy CORS");
-                } catch (parseError) {
-                  console.error("Error parsing JSON:", parseError);
-                  console.log("Respuesta cruda:", responseText);
-                  throw new Error("Respuesta del servidor no válida");
-                }
-              } else {
-                throw new Error(
-                  `Proxy error: ${proxyResponse.status} ${proxyResponse.statusText}`
-                );
-              }
-            } catch (proxyError) {
-              console.error("❌ Proxy también falló:", proxyError.message);
-              throw new Error(
-                "🚨 El servidor AWS no está disponible en este momento. " +
-                  "Esto puede deberse a que la instancia EC2 esté apagada o la IP haya cambiado. " +
-                  "Por favor, contacta al administrador del sistema."
-              );
-            }
+          } else {
+            throw new Error(
+              "🚨 Error de conexión al servidor. " +
+              "Verifica que el servidor AWS esté disponible."
+            );
           }
         }
       } else {
@@ -486,7 +424,13 @@ document
       }
     } catch (error) {
       console.error("Error en registro:", error);
-      showNotification("Error de conexión. Inténtalo de nuevo.", "error");
+      
+      // Si es error de certificado, mostrar botón especial
+      if (error.message.includes("certificado SSL") || error.message.includes("GitHub Pages")) {
+        showSSLErrorNotification(error.message);
+      } else {
+        showNotification("Error de conexión. Inténtalo de nuevo.", "error");
+      }
     } finally {
       // Restaurar botón
       const submitBtn = this.querySelector('button[type="submit"]');
@@ -556,6 +500,35 @@ document
       submitBtn.disabled = false;
     }
   });
+
+// Función especial para errores SSL con botón de ayuda
+function showSSLErrorNotification(message) {
+  const notification = document.createElement("div");
+  notification.className = "notification error ssl-error";
+  notification.innerHTML = `
+    <div class="notification-content">
+      <i class="fas fa-shield-alt"></i>
+      <div class="ssl-error-content">
+        <div class="ssl-message">${message.replace(/\n/g, '<br>')}</div>
+        <button class="ssl-help-btn" onclick="window.open('https://107.21.199.133/', '_blank'); showNotification('¡Acepta el certificado y vuelve aquí!', 'info');">
+          🔓 Abrir y Aceptar Certificado
+        </button>
+      </div>
+      <button class="notification-close" onclick="this.parentElement.parentElement.remove()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  `;
+
+  document.body.appendChild(notification);
+
+  // Auto-remover después de 15 segundos (más tiempo para SSL)
+  setTimeout(() => {
+    if (notification.parentElement) {
+      notification.remove();
+    }
+  }, 15000);
+}
 
 // Función para mostrar notificaciones
 function showNotification(message, type = "info") {
