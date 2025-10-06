@@ -1,5 +1,7 @@
 -- Easy Level Stored Procedures for MASK!OTAS Database Integration
--- This script creates the two easy level stored procedures for user analytics
+-- Tarea 2 - Nivel Fácil:
+-- 1. Para cada país, de qué ciudades ha habido usuarios que se han registrado y cuántos de cada una
+-- 2. Qué país tiene el mayor número de usuarios y cuántos son
 
 USE world;
 
