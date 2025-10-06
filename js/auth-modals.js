@@ -117,23 +117,31 @@ async function fetchWithProxy(url) {
   }
 }
 
-// Cargar países desde la API
+// Cargar países desde la API (optimizado para usar datos de respaldo primero)
 async function loadCountries() {
   const countrySelect = document.getElementById("registerCountry");
 
   try {
-    console.log("Iniciando carga de países...");
+    console.log("🚀 Carga rápida: Usando datos de respaldo primero...");
 
     if (countrySelect) {
       countrySelect.innerHTML = '<option value="">Cargando países...</option>';
     }
 
-    // Intentar HTTPS primero, luego HTTP con proxy
+    // OPTIMIZACIÓN: Usar datos de respaldo primero para velocidad
+    if (typeof loadFallbackCountries === "function") {
+      console.log("✅ Cargando datos de respaldo inmediatamente");
+      loadFallbackCountries();
+      return; // Salir temprano, ya no necesitamos cargar desde API
+    }
+
+    // Solo si no hay datos de respaldo, intentar API (este código quedará como backup)
     let data;
     try {
       console.log("Intentando cargar países con HTTPS...");
       const httpsResponse = await fetch(
-        "https://107.21.199.133/api/get-countries.php"
+        API_CONFIG.getApiUrl("/api/get-countries.php"),
+        { timeout: 3000 } // Timeout de 3 segundos
       );
       if (httpsResponse.ok) {
         data = await httpsResponse.json();
@@ -142,10 +150,8 @@ async function loadCountries() {
         throw new Error("HTTPS no disponible");
       }
     } catch (httpsError) {
-      console.log("HTTPS falló, usando proxy:", httpsError.message);
-      data = await fetchWithProxy(
-        "http://107.21.199.133/api/get-countries.php"
-      );
+      console.log("HTTPS falló:", httpsError.message);
+      throw httpsError; // No usar proxies, ir directo a datos de respaldo
     }
     console.log("Datos recibidos:", data);
 
@@ -213,7 +219,7 @@ const COUNTRY_CODE_MAP = {
   PT: "PRT", // Portugal
 };
 
-// Cargar ciudades basadas en el país seleccionado
+// Cargar ciudades basadas en el país seleccionado (optimizado)
 async function loadCities() {
   const countryCode = document.getElementById("registerCountry").value;
   const citySelect = document.getElementById("registerCity");
@@ -224,107 +230,54 @@ async function loadCities() {
     return;
   }
 
-  // Mapear código si es necesario
-  const mappedCountryCode = COUNTRY_CODE_MAP[countryCode] || countryCode;
-  console.log(
-    `Código original: ${countryCode}, Código mapeado: ${mappedCountryCode}`
-  );
+  console.log(`🚀 Carga rápida de ciudades para: ${countryCode}`);
+  citySelect.innerHTML = '<option value="">Cargando ciudades...</option>';
 
+  // OPTIMIZACIÓN: Usar datos de respaldo directamente
+  if (typeof loadFallbackCities === "function") {
+    console.log("✅ Usando datos de respaldo inmediatamente");
+    loadFallbackCities(countryCode);
+    return; // Salir temprano
+  }
+
+  // Este código solo se ejecuta si no hay datos de respaldo
   try {
-    console.log(
-      `Cargando ciudades para país: ${countryCode} (mapeado: ${mappedCountryCode})`
-    );
-    citySelect.innerHTML = '<option value="">Cargando ciudades...</option>';
-
-    // Intentar HTTPS primero, luego HTTP con proxy
-    let data;
-    try {
-      const apiUrl = API_CONFIG.getApiUrl(`/api/get-cities.php?country=${mappedCountryCode}`);
-      console.log("Cargando ciudades desde:", apiUrl);
-
-      const response = await fetch(apiUrl, { mode: 'cors' });
-      if (response.ok) {
-        data = await response.json();
-        console.log("✅ Ciudades cargadas exitosamente");
-      } else {
-        throw new Error("Error en la respuesta del servidor");
+    const mappedCountryCode = COUNTRY_CODE_MAP[countryCode] || countryCode;
+    const response = await fetch(
+      API_CONFIG.getApiUrl(`/api/get-cities.php?country=${mappedCountryCode}`),
+      { 
+        mode: 'cors',
+        timeout: 2000 // Timeout de 2 segundos
       }
-    } catch (error) {
-      console.log("Error directo, usando proxy:", error.message);
-      const fallbackUrl = API_CONFIG.getApiUrl(`/api/get-cities.php?country=${mappedCountryCode}`).replace('https:', 'http:');
-      data = await fetchWithProxy(fallbackUrl);
-    }
-    console.log(
-      "Respuesta completa de ciudades:",
-      JSON.stringify(data, null, 2)
     );
-
-    // La API puede devolver 'cities' o 'data' dependiendo del endpoint
-    const citiesArray = data.cities || data.data || [];
-    console.log("Array de ciudades extraído:", citiesArray);
-    console.log("¿Es array?", Array.isArray(citiesArray));
-    console.log("Longitud:", citiesArray.length);
-
-    if (data.success && Array.isArray(citiesArray)) {
-      cities = citiesArray;
-
-      if (cities.length > 0) {
-        citySelect.innerHTML =
-          '<option value="">Selecciona una ciudad</option>';
-
-        cities.forEach((city, index) => {
-          // Manejar diferentes formatos de respuesta de la API
-          const cityId = city.ID || city.id;
-          const cityName = city.Name || city.city_name || city.name;
-
-          console.log(`Ciudad ${index}:`, { cityId, cityName, original: city });
-
-          if (city && cityId && cityName) {
-            const option = document.createElement("option");
-            option.value = cityId;
-            option.textContent = cityName;
-            citySelect.appendChild(option);
-          }
+    
+    if (response.ok) {
+      const data = await response.json();
+      const citiesArray = data.cities || data.data || [];
+      
+      if (data.success && Array.isArray(citiesArray) && citiesArray.length > 0) {
+        cities = citiesArray;
+        citySelect.innerHTML = '<option value="">Selecciona una ciudad</option>';
+        citiesArray.forEach(city => {
+          const option = document.createElement("option");
+          option.value = city.ID;
+          option.textContent = city.Name;
+          citySelect.appendChild(option);
         });
-
-        console.log(
-          `${cities.length} ciudades cargadas para ${countryCode} (${mappedCountryCode})`
-        );
-        showNotification(`${cities.length} ciudades cargadas`, "success");
-      } else {
-        // No hay ciudades para este país
-        citySelect.innerHTML =
-          '<option value="999">Ciudad no especificada</option>';
-        console.log(
-          `No se encontraron ciudades para ${countryCode} (${mappedCountryCode})`
-        );
-        showNotification(
-          `No hay ciudades disponibles para ${countryCode}`,
-          "warning"
-        );
+        console.log(`✅ ${citiesArray.length} ciudades cargadas exitosamente`);
+        return;
       }
-    } else {
-      console.error("Error en estructura de datos:", {
-        success: data.success,
-        isArray: Array.isArray(citiesArray),
-      });
-      throw new Error(
-        data.message ||
-          `No se encontraron ciudades para ${countryCode} (${mappedCountryCode})`
-      );
     }
+    throw new Error("No se pudieron cargar las ciudades");
   } catch (error) {
     console.error("Error cargando ciudades desde API:", error);
-    console.log("Intentando usar datos de respaldo...");
-
-    // Usar datos de respaldo
+    
+    // Usar datos de respaldo como fallback
     if (typeof loadFallbackCities === "function") {
-      console.log("Función de respaldo encontrada, ejecutando...");
+      console.log("✅ Usando datos de respaldo para ciudades");
       loadFallbackCities(countryCode);
     } else {
-      console.log("No se encontró función de respaldo");
-      citySelect.innerHTML =
-        '<option value="">Error cargando ciudades</option>';
+      citySelect.innerHTML = '<option value="">Error cargando ciudades</option>';
       showNotification(`Error al cargar ciudades: ${error.message}`, "error");
     }
   }
