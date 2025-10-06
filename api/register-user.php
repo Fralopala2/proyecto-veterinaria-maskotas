@@ -13,15 +13,26 @@ try {
         throw new Exception('Método no permitido');
     }
     
+    // Debug: Logging de datos recibidos
+    error_log("POST data recibida: " . print_r($_POST, true));
+    error_log("Raw input: " . file_get_contents("php://input"));
+    
     // Obtener datos del formulario
     $username = $_POST['username'] ?? '';
     $email = $_POST['email'] ?? '';
     $city_id = $_POST['city_id'] ?? '';
     $password = $_POST['password'] ?? '';
     
+    // Debug: Logging de campos individuales
+    error_log("username: '$username', email: '$email', city_id: '$city_id', password: '" . (empty($password) ? "EMPTY" : "SET") . "'");
+    
     // Validaciones básicas
     if (empty($username) || empty($email) || empty($city_id) || empty($password)) {
-        throw new Exception('Todos los campos son obligatorios');
+        throw new Exception('Todos los campos son obligatorios: ' . 
+                          "username=" . (empty($username) ? "EMPTY" : "OK") . 
+                          ", email=" . (empty($email) ? "EMPTY" : "OK") . 
+                          ", city_id=" . (empty($city_id) ? "EMPTY" : "OK") . 
+                          ", password=" . (empty($password) ? "EMPTY" : "OK"));
     }
     
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
