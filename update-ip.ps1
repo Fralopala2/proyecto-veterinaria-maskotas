@@ -19,7 +19,11 @@ Write-Host "Nueva IP: $NewIP" -ForegroundColor Green
 $filesToUpdate = @(
     "js\auth-modals.js",
     "js\connection-tracker.js",
-    "api\login-user.php"
+    "api\login-user.php",
+    "api\register-user.php",
+    "api\dashboard-data-stored-procedures.php",
+    "ESTADO-PROYECTO.md",
+    "README.md"
 )
 
 $oldIPPattern = '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}'
@@ -88,3 +92,6 @@ if ($totalReplacements -gt 0) {
 Write-Host ""
 Write-Host "Para verificar la conectividad:" -ForegroundColor Cyan
 Write-Host "ssh -i Clave_lab.pem ec2-user@$NewIP" -ForegroundColor White
+
+# Establecer código de salida exitoso
+exit 0

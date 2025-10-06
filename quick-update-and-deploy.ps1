@@ -43,5 +43,8 @@ if ($deploy -eq "s" -or $deploy -eq "S" -or $deploy -eq "si" -or $deploy -eq "Si
 
 Write-Host ""
 Write-Host "URLs para probar:" -ForegroundColor Cyan
-Write-Host "  http://$NewIP/index.html" -ForegroundColor White
-Write-Host "  http://$NewIP/admin-dashboard.html" -ForegroundColor White
+Write-Host "  https://$NewIP/" -ForegroundColor White
+Write-Host "  https://$NewIP/admin-dashboard.html" -ForegroundColor White
+Write-Host ""
+Write-Host "Para conectar por SSH:" -ForegroundColor Cyan
+Write-Host "  ssh -i aws-setup/Clave_lab.pem ec2-user@$NewIP" -ForegroundColor White

@@ -46,7 +46,7 @@
 - **Detección automática**: Se adapta a HTTP local / HTTPS producción
 
 ### Backend (AWS EC2)
-- **IP Actual**: `107.21.199.133`
+- **IP Actual**: `54.227.177.22`
 - **Protocolos**: HTTP (puerto 80) + HTTPS (puerto 443)
 - **SSL**: Certificado autofirmado generado automáticamente
 - **CORS**: Configurado para GitHub Pages
@@ -118,10 +118,10 @@ proyecto-veterinaria-maskotas/
 ## 🧪 TESTING Y VERIFICACIÓN
 
 ### URLs de Prueba
-- **HTTP**: http://107.21.199.133/
-- **HTTPS**: https://107.21.199.133/
-- **Test Login**: https://107.21.199.133/test-login-https.html
-- **API Login**: https://107.21.199.133/api/login-user.php
+- **HTTP**: http://54.227.177.22/
+- **HTTPS**: https://54.227.177.22/
+- **Test Login**: https://54.227.177.22/test-login-https.html
+- **API Login**: https://54.227.177.22/api/login-user.php
 
 ### Usuario de Prueba
 - **Email**: test@test.com
@@ -131,7 +131,7 @@ proyecto-veterinaria-maskotas/
 ### Verificación Estado
 ```bash
 # SSH al servidor
-ssh -i "Clave_lab.pem" ec2-user@107.21.199.133
+ssh -i "Clave_lab.pem" ec2-user@54.227.177.22
 
 # Verificar Apache
 sudo systemctl status httpd
@@ -173,4 +173,4 @@ En caso de problemas:
 
 **Estado actual**: ✅ TOTALMENTE FUNCIONAL
 **Última actualización**: $(Get-Date)
-**IP configurada**: 107.21.199.133
+**IP configurada**: 54.227.177.22
