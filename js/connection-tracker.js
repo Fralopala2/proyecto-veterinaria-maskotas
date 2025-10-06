@@ -98,10 +98,10 @@ class ConnectionTracker {
             data.append('end_time', new Date().toISOString());
 
             if (navigator.sendBeacon) {
-                navigator.sendBeacon('http://54.227.177.22/api/update-connection-end.php', data);
+                navigator.sendBeacon('http://98.89.1.157/api/update-connection-end.php', data);
             } else {
                 // Fallback para navegadores que no soportan sendBeacon
-                fetch('http://54.227.177.22/api/update-connection-end.php', {
+                fetch('http://98.89.1.157/api/update-connection-end.php', {
                     method: 'POST',
                     body: data,
                     keepalive: true
