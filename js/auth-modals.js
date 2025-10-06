@@ -8,11 +8,7 @@ let cities = [];
 const API_CONFIG = {
   SERVER_IP: '107.21.199.133',
   getApiUrl: function(endpoint) {
-    const isGitHubPages = window.location.hostname === 'fralopala2.github.io';
-    const isHTTPS = window.location.protocol === 'https:';
-    
-    // Si estamos en GitHub Pages o HTTPS, intentar HTTPS primero
-    const protocol = (isGitHubPages || isHTTPS) ? 'https:' : 'http:';
+    const protocol = window.location.protocol === 'https:' ? 'https:' : 'http:';
     return `${protocol}//${this.SERVER_IP}${endpoint}`;
   }
 };
@@ -327,81 +323,21 @@ document
       console.log("Enviando datos a la API de AWS...");
       console.log("Protocolo:", isHTTPS ? "HTTPS" : "HTTP");
 
-      if (isHTTPS) {
-        // En HTTPS (GitHub Pages), intentar múltiples estrategias
-        console.log("Intentando registro desde GitHub Pages...");
+      // Intentar registro directo
+      const apiUrl = API_CONFIG.getApiUrl('/api/register-user.php');
+      console.log("Enviando registro a:", apiUrl);
+      
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        body: formData,
+        mode: "cors",
+      });
 
-        let registrationSuccess = false;
-
-        // Estrategia 1: Intentar HTTPS primero, luego HTTP
-        try {
-          console.log("Estrategia 1: Intentando HTTPS...");
-          const httpsResponse = await fetch(
-            "https://107.21.199.133/api/register-user.php",
-            {
-              method: "POST",
-              body: formData,
-              mode: "cors",
-            }
-          );
-
-          if (httpsResponse.ok) {
-            result = await httpsResponse.json();
-            registrationSuccess = true;
-            console.log("✅ Éxito con HTTPS directo");
-          } else {
-            throw new Error(`HTTPS error: ${httpsResponse.status}`);
-          }
-        } catch (httpsError) {
-          console.log("HTTPS falló:", httpsError.message);
-          
-          // Mensaje específico para GitHub Pages
-          const isGitHubPages = window.location.hostname.includes('github.io');
-          
-          if (isGitHubPages) {
-            throw new Error(
-              "🔒 Para registrarte desde GitHub Pages, necesitas permitir el certificado SSL:\n\n" +
-              "📋 PASOS SIMPLES:\n" +
-              "1️⃣ Abre una nueva pestaña\n" +
-              "2️⃣ Ve a: https://107.21.199.133/\n" +
-              "3️⃣ Acepta el certificado de seguridad\n" +
-              "4️⃣ Vuelve aquí e intenta registrarte de nuevo\n\n" +
-              "💡 El sitio web funciona completamente sin registro."
-            );
-          } else {
-            throw new Error(
-              "🚨 Error de conexión al servidor. " +
-              "Verifica que el servidor AWS esté disponible."
-            );
-          }
-        }
-      } else {
-        // En HTTP local, usar directamente
-        console.log("Modo local - usando conexión directa...");
-        const response = await fetch(
-          "http://107.21.199.133/api/register-user.php",
-          {
-            method: "POST",
-            body: formData,
-          }
-        );
-
-        console.log(
-          "Respuesta del servidor:",
-          response.status,
-          response.statusText
-        );
-
-        if (!response.ok) {
-          const errorText = await response.text();
-          console.error("Error del servidor:", errorText);
-          throw new Error(
-            `Error del servidor: ${response.status} ${response.statusText}`
-          );
-        }
-
-        result = await response.json();
+      if (!response.ok) {
+        throw new Error(`Error del servidor: ${response.status}`);
       }
+
+      result = await response.json();
 
       console.log("Resultado del registro:", result);
 
@@ -424,13 +360,7 @@ document
       }
     } catch (error) {
       console.error("Error en registro:", error);
-      
-      // Si es error de certificado, mostrar botón especial
-      if (error.message.includes("certificado SSL") || error.message.includes("GitHub Pages")) {
-        showSSLErrorNotification(error.message);
-      } else {
-        showNotification("Error de conexión. Inténtalo de nuevo.", "error");
-      }
+      showNotification("Error al registrar usuario: " + error.message, "error");
     } finally {
       // Restaurar botón
       const submitBtn = this.querySelector('button[type="submit"]');
@@ -501,34 +431,7 @@ document
     }
   });
 
-// Función especial para errores SSL con botón de ayuda
-function showSSLErrorNotification(message) {
-  const notification = document.createElement("div");
-  notification.className = "notification error ssl-error";
-  notification.innerHTML = `
-    <div class="notification-content">
-      <i class="fas fa-shield-alt"></i>
-      <div class="ssl-error-content">
-        <div class="ssl-message">${message.replace(/\n/g, '<br>')}</div>
-        <button class="ssl-help-btn" onclick="window.open('https://107.21.199.133/', '_blank'); showNotification('¡Acepta el certificado y vuelve aquí!', 'info');">
-          🔓 Abrir y Aceptar Certificado
-        </button>
-      </div>
-      <button class="notification-close" onclick="this.parentElement.parentElement.remove()">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-  `;
 
-  document.body.appendChild(notification);
-
-  // Auto-remover después de 15 segundos (más tiempo para SSL)
-  setTimeout(() => {
-    if (notification.parentElement) {
-      notification.remove();
-    }
-  }, 15000);
-}
 
 // Función para mostrar notificaciones
 function showNotification(message, type = "info") {
