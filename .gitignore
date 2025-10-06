@@ -43,12 +43,9 @@ ssl-*.conf
 *.crt
 *.csr
 
-# PowerShell temp and old versions
+# PowerShell temp and old versions (keep essential automation scripts)
 setup-https.ps1
 setup-https-*.ps1
-deploy-to-ec2.ps1
-deploy-login-fix.ps1
-setup-complete-https.ps1
 *-old.ps1
 *-backup.ps1
 
@@ -79,9 +76,7 @@ plantilla.html
 create-test-user.sql
 *-mock.php
 
-# Project management and automation scripts
-quick-update-and-deploy.ps1
-update-ip.ps1
+
 
 # Cache and temporary data
 data/
