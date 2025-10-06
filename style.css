@@ -703,22 +703,24 @@ s para botones de autenticación en navbar */
 .login-btn {
   background-color: transparent;
   color: white;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
 .login-btn:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.15);
+  border-color: white;
+  transform: translateY(-1px);
 }
 
 .register-btn {
-  background-color: #09a8e7;
+  background-color: #00796b;
   color: white;
 }
 
 .register-btn:hover {
-  background-color: #00e1ff;
+  background-color: #004d40;
   transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Estilos para usuario logueado */
