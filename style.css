@@ -712,12 +712,12 @@ s para botones de autenticación en navbar */
 }
 
 .register-btn {
-  background-color: #ff6b35;
+  background-color: #09a8e7;
   color: white;
 }
 
 .register-btn:hover {
-  background-color: #e55a2b;
+  background-color: #00e1ff;
   transform: translateY(-1px);
 }
 

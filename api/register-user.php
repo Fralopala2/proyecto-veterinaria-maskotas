@@ -28,11 +28,15 @@ try {
     error_log("POST data recibida: " . print_r($_POST, true));
     error_log("Raw input: " . file_get_contents("php://input"));
     
-    // Obtener datos del formulario
-    $username = $_POST['username'] ?? '';
-    $email = $_POST['email'] ?? '';
-    $city_id = $_POST['city_id'] ?? '';
-    $password = $_POST['password'] ?? '';
+    // Obtener datos del formulario (intentar múltiples fuentes)
+    $input = file_get_contents("php://input");
+    $json_data = json_decode($input, true);
+    
+    // Intentar obtener datos de POST o JSON
+    $username = $_POST['username'] ?? $json_data['username'] ?? '';
+    $email = $_POST['email'] ?? $json_data['email'] ?? '';
+    $city_id = $_POST['city_id'] ?? $json_data['city_id'] ?? '';
+    $password = $_POST['password'] ?? $json_data['password'] ?? '';
     
     // Debug: Logging de campos individuales
     error_log("username: '$username', email: '$email', city_id: '$city_id', password: '" . (empty($password) ? "EMPTY" : "SET") . "'");

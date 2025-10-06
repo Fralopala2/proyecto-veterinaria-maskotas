@@ -315,6 +315,14 @@ document
 
       console.log("Iniciando registro de usuario...");
       console.log("Datos del formulario:", Object.fromEntries(formData));
+      
+      // Verificar que todos los campos requeridos estén presentes
+      const requiredFields = ['username', 'email', 'password', 'city_id'];
+      for (const field of requiredFields) {
+        if (!formData.get(field)) {
+          throw new Error(`Campo requerido faltante: ${field}`);
+        }
+      }
 
       // Intentar registro real en la base de datos AWS
       const isHTTPS = window.location.protocol === "https:";
@@ -333,11 +341,24 @@ document
         mode: "cors",
       });
 
-      if (!response.ok) {
-        throw new Error(`Error del servidor: ${response.status}`);
+      console.log("Respuesta del servidor:", response.status, response.statusText);
+      
+      // Leer la respuesta siempre, incluso si hay error
+      const responseText = await response.text();
+      console.log("Respuesta cruda:", responseText);
+      
+      try {
+        result = JSON.parse(responseText);
+      } catch (parseError) {
+        console.error("Error parseando JSON:", parseError);
+        throw new Error(`Respuesta inválida del servidor: ${responseText.substring(0, 100)}`);
       }
 
-      result = await response.json();
+      if (!response.ok) {
+        // Si hay error, usar el mensaje del servidor si está disponible
+        const errorMessage = result?.message || `Error del servidor: ${response.status}`;
+        throw new Error(errorMessage);
+      }
 
       console.log("Resultado del registro:", result);
 
