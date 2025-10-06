@@ -6,7 +6,7 @@ let cities = [];
 
 // Configuración de API
 const API_CONFIG = {
-  SERVER_IP: '100.26.134.168',
+  SERVER_IP: '107.21.199.133',
   getApiUrl: function(endpoint) {
     const isGitHubPages = window.location.hostname === 'fralopala2.github.io';
     const isHTTPS = window.location.protocol === 'https:';
@@ -133,7 +133,7 @@ async function loadCountries() {
     try {
       console.log("Intentando cargar países con HTTPS...");
       const httpsResponse = await fetch(
-        "https://100.26.134.168/api/get-countries.php"
+        "https://107.21.199.133/api/get-countries.php"
       );
       if (httpsResponse.ok) {
         data = await httpsResponse.json();
@@ -144,7 +144,7 @@ async function loadCountries() {
     } catch (httpsError) {
       console.log("HTTPS falló, usando proxy:", httpsError.message);
       data = await fetchWithProxy(
-        "http://100.26.134.168/api/get-countries.php"
+        "http://107.21.199.133/api/get-countries.php"
       );
     }
     console.log("Datos recibidos:", data);
@@ -384,7 +384,7 @@ document
         try {
           console.log("Estrategia 1: Intentando HTTPS...");
           const httpsResponse = await fetch(
-            "https://100.26.134.168/api/register-user.php",
+            "https://107.21.199.133/api/register-user.php",
             {
               method: "POST",
               body: formData,
@@ -404,7 +404,7 @@ document
 
           try {
             const directResponse = await fetch(
-              "http://100.26.134.168/api/register-user.php",
+              "http://107.21.199.133/api/register-user.php",
               {
                 method: "POST",
                 body: formData,
@@ -437,7 +437,7 @@ document
               const proxyResponse = await fetch(
                 "https://api.allorigins.win/raw?url=" +
                   encodeURIComponent(
-                    "http://100.26.134.168/api/register-user.php"
+                    "http://107.21.199.133/api/register-user.php"
                   ),
                 {
                   method: "POST",
@@ -487,7 +487,7 @@ document
         // En HTTP local, usar directamente
         console.log("Modo local - usando conexión directa...");
         const response = await fetch(
-          "http://100.26.134.168/api/register-user.php",
+          "http://107.21.199.133/api/register-user.php",
           {
             method: "POST",
             body: formData,
