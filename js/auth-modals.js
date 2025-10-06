@@ -6,7 +6,7 @@ let cities = [];
 
 // Configuración de API
 const API_CONFIG = {
-  SERVER_IP: '107.21.199.133',
+  SERVER_IP: '100.26.134.168',
   getApiUrl: function(endpoint) {
     const isGitHubPages = window.location.hostname === 'fralopala2.github.io';
     const isHTTPS = window.location.protocol === 'https:';
@@ -133,7 +133,7 @@ async function loadCountries() {
     try {
       console.log("Intentando cargar países con HTTPS...");
       const httpsResponse = await fetch(
-        "https://107.21.199.133/api/get-countries.php"
+        "https://100.26.134.168/api/get-countries.php"
       );
       if (httpsResponse.ok) {
         data = await httpsResponse.json();
@@ -144,7 +144,7 @@ async function loadCountries() {
     } catch (httpsError) {
       console.log("HTTPS falló, usando proxy:", httpsError.message);
       data = await fetchWithProxy(
-        "http://107.21.199.133/api/get-countries.php"
+        "http://100.26.134.168/api/get-countries.php"
       );
     }
     console.log("Datos recibidos:", data);
@@ -384,7 +384,7 @@ document
         try {
           console.log("Estrategia 1: Intentando HTTPS...");
           const httpsResponse = await fetch(
-            "https://107.21.199.133/api/register-user.php",
+            "https://100.26.134.168/api/register-user.php",
             {
               method: "POST",
               body: formData,
@@ -404,7 +404,7 @@ document
 
           try {
             const directResponse = await fetch(
-              "http://107.21.199.133/api/register-user.php",
+              "http://100.26.134.168/api/register-user.php",
               {
                 method: "POST",
                 body: formData,
@@ -437,7 +437,7 @@ document
               const proxyResponse = await fetch(
                 "https://api.allorigins.win/raw?url=" +
                   encodeURIComponent(
-                    "http://107.21.199.133/api/register-user.php"
+                    "http://100.26.134.168/api/register-user.php"
                   ),
                 {
                   method: "POST",
@@ -476,9 +476,9 @@ document
             } catch (proxyError) {
               console.error("❌ Proxy también falló:", proxyError.message);
               throw new Error(
-                "No se pudo conectar con el servidor AWS. " +
-                  "Esto puede deberse a limitaciones de CORS. " +
-                  "Solución: Configurar HTTPS en el servidor EC2."
+                "🚨 El servidor AWS no está disponible en este momento. " +
+                  "Esto puede deberse a que la instancia EC2 esté apagada o la IP haya cambiado. " +
+                  "Por favor, contacta al administrador del sistema."
               );
             }
           }
@@ -487,7 +487,7 @@ document
         // En HTTP local, usar directamente
         console.log("Modo local - usando conexión directa...");
         const response = await fetch(
-          "http://107.21.199.133/api/register-user.php",
+          "http://100.26.134.168/api/register-user.php",
           {
             method: "POST",
             body: formData,

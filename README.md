@@ -1,8 +1,14 @@
-## Proyecto Veterinaria MASK!OTAS
+## 🐾 Proyecto Veterinaria MASK!OTAS
 
 Bienvenido al repositorio **proyecto-veterinaria-maskotas**. Este proyecto corresponde a una página web desarrollada para el proyecto intermodular del Grado de Desarrollo de Aplicaciones Web (DAW).
 
 MASK!OTAS es una clínica veterinaria moderna que ofrece servicios completos para el cuidado de mascotas, incluyendo consultas, vacunación, peluquería y un sistema avanzado de gestión de usuarios con análisis de datos.
+
+### 🌐 Demo en Vivo
+- **GitHub Pages**: https://fralopala2.github.io/proyecto-veterinaria-maskotas/
+- **Backend AWS**: Arquitectura híbrida con EC2 + MariaDB
+
+⚠️ **Nota**: Si experimentas problemas de conectividad, puede deberse a que la instancia AWS EC2 esté temporalmente inactiva o la IP haya cambiado.
 
 <p align="center">
   <img width="300" height="300" alt="imagen" src="https://github.com/user-attachments/assets/6bef0ed6-9a7d-44fe-96ec-5599a94dfce8" />
@@ -314,7 +320,25 @@ git push origin feature/nueva-funcionalidad
 
 Este proyecto está bajo la licencia MIT. Consulta el archivo [LICENSE](LICENSE) para más información.
 
-## 🙏 Agradecimientos
+## �️ Solución de Problemas Comunes
+
+### ❌ Error de Conexión AWS
+Si ves errores como "ERR_CONNECTION_TIMED_OUT" o "servidor AWS no disponible":
+1. La instancia EC2 puede estar apagada (AWS Academy se suspende automáticamente)
+2. La IP pública de AWS puede haber cambiado
+3. **Solución para desarrolladores**: Ejecutar `.\update-ip.ps1 -NewIP "NUEVA_IP"` y luego `.\setup-complete-https.ps1 -ServerIP "NUEVA_IP"`
+
+### 🔒 Problemas de HTTPS/Mixed Content
+- GitHub Pages requiere HTTPS, pero AWS EC2 usa HTTP por defecto
+- El sistema incluye configuración automática de SSL y CORS
+- Los usuarios finales verán datos de respaldo si AWS no está disponible
+
+### 📋 Funcionalidades Sin Conexión
+- Los países y ciudades tienen datos de respaldo integrados
+- El sitio web principal funciona completamente sin backend
+- Solo el registro/login requieren conexión a AWS
+
+## �🙏 Agradecimientos
 
 - **World Database** por proporcionar datos geográficos
 - **Font Awesome** por los iconos
