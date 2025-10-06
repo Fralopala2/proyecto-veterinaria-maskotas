@@ -6,7 +6,7 @@ let cities = [];
 
 // Configuración de API
 const API_CONFIG = {
-  SERVER_IP: '98.89.1.157',
+  SERVER_IP: '54.91.80.228',
   getApiUrl: function(endpoint) {
     const protocol = window.location.protocol === 'https:' ? 'https:' : 'http:';
     return `${protocol}//${this.SERVER_IP}${endpoint}`;
