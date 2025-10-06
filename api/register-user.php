@@ -47,7 +47,7 @@ try {
     $connection = $db->getConnection();
     
     // Verificar si el usuario ya existe
-    $checkQuery = "SELECT id FROM users WHERE username = ? OR email = ?";
+    $checkQuery = "SELECT user_id FROM users WHERE username = ? OR email = ?";
     $checkStmt = $connection->prepare($checkQuery);
     $checkStmt->bind_param('ss', $username, $email);
     $checkStmt->execute();
@@ -68,13 +68,11 @@ try {
         throw new Exception('Ciudad no válida');
     }
     
-    // Hash de la contraseña
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-    
+    // La tabla users no tiene campo password, es solo para tracking
     // Insertar nuevo usuario
-    $insertQuery = "INSERT INTO users (username, email, password_hash, city_id, registration_date, connection_start) VALUES (?, ?, ?, ?, NOW(), NOW())";
+    $insertQuery = "INSERT INTO users (username, email, city_id, registration_date, connection_start) VALUES (?, ?, ?, NOW(), NOW())";
     $insertStmt = $connection->prepare($insertQuery);
-    $insertStmt->bind_param('sssi', $username, $email, $hashedPassword, $city_id);
+    $insertStmt->bind_param('ssi', $username, $email, $city_id);
     
     if ($insertStmt->execute()) {
         $userId = $connection->insert_id;
